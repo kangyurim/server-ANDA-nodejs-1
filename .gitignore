@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Secret Files
+config/database.js
+config/secret.js
+config/jwtMiddleware
+config/publicAPIKey.js
+
+.DS_Store
+config/jwtMiddleware.js
