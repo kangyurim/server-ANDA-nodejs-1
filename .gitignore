@@ -111,3 +111,7 @@ config/publicAPIKey.js
 
 .DS_Store
 config/jwtMiddleware.js
+
+# Large Files
+OphthalmologyDATA.xlsx
+hospitalInformationService.xls

@@ -10,7 +10,6 @@ var app = express()
 var port = app.listen(process.env.PORT || 7002);
 
 
-
 // express 서버를 실행할 때 필요한 포트 정의 및 실행 시 callback 함수를 받습니다
 app.listen(port, function() {
     console.log('start! express server');
