@@ -3,5 +3,5 @@ module.exports = function(app){
     
 
     // 1. 병원 위치 조회 API
-    app.get('/app/location', location.getHospitalLocationByLatitLongit)
+    app.get('/app/location/:xCoordi/:yCoordi/:within', location.getHospitalLocationByLatitLongit)
 }

@@ -1,25 +1,24 @@
 const { pool } = require("../../../config/database");
 const { logger } = require("../../../config/winston");
-import {queryParams} from '../../../config/publicAPIKey';
+const {response} = require("../../../config/response");
+const {errResponse} = require("../../../config/response");
+
+const baseResponse = require("../../../config/baseResponseStatus");
+const baseResponseStatus = require("../../../config/baseResponseStatus");
 
 const locationDao = require("./locationDao");
 
-exports.getHospitalLocationByLatitLongit = async function() {
-    var request = require('request');
-    let parseString = require('xml2js')
+exports.getHospitalLocationByLatitLongit = async function(req) {
+    try{
+        const connection = await pool.getConnection(async (conn) => conn);
+        const getHospitalParams = [req["yCoordi"], req["xCoordi"], req["yCoordi"], req["within"]];
+        const getHospitalLocaResult = await locationDao.getHospitalLocationByLatitLongit(connection, getHospitalParams);
 
-    var url = 'http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncLcinfoInqire';
-    queryParams += '&' + encodeURIComponent('WGS84_LON=127.085156592737&WGS84_LAT=37.4881325624879&pageNo=1&numOfRows=1'); /* */
+        connection.release();
 
-    const requestUrl = url+queryParams
-
-    request({
-        url: url + queryParams,
-        method: 'GET'
-    }, function (error, response, body) {
-        console.log('Status', response.statusCode);
-        console.log('Reponse received', body.dutyName);
-
-        return body;
-    });
+        return response(baseResponse.SUCCESS, getHospitalLocaResult);
+    }
+    catch{
+        return errResponse(baseResponse.DB_ERROR)
+    }
 }

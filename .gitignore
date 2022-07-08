@@ -114,4 +114,5 @@ config/jwtMiddleware.js
 
 # Large Files
 OphthalmologyDATA.xlsx
+OphthalmologyDATA.csv
 hospitalInformationService.xls

@@ -1765,3 +1765,11 @@ INSERT INTO Ophthalmology (UMCanda.Ophthalmology.name, UMCanda.Ophthalmology.cit
     ('흑석성모안과의원','서울','동작구',6979,'서울특별시 동작구 서달로 158 202,212호 (흑석동, 명수대아파트)','02-822-8223',NULL,126.9622122,37.5074679),
     ('흥해경대안과의원','경북','포항북구',37542,'경상북도 포항시 북구 흥해읍 흥해로 48 ()','054-262-5817',NULL,129.3468936,36.1091366),
     ('희망찬안과의원','서울','관악구',8753,'서울특별시 관악구 신림로 368-1 (신림동)','02-888-1360','http://www.eyehospital.co.kr',126.9292338,37.4872126);
+
+select  name, cityname, townname, postcode, address, phonenumber, url, xCoordi, yCoordi,(6371*acos(cos(radians(37.5611326))*cos(radians(Op.yCoordi))*cos(radians(Op.xCoordi)-radians(127.033311))
++sin(radians(37.5611326))*sin(radians(Op.yCoordi)))) AS distance
+from Ophthalmology AS Op
+having distance < 3
+order by distance DESC;
+
+select * from Ophthalmology WHERE cityName="서울";
