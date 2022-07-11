@@ -14,6 +14,9 @@ CREATE TABLE User(
 
     PRIMARY KEY (id, email)
 );
+
+insert into User(name, email, password, phone, birthdate, recommendUserId)
+        VALUES('test1', 'test1@naver.com','test1pw', '010-0000-0000', '00-01-01', NULL);
 SELECT * FROM User;
 
 # JWT Table

@@ -22,7 +22,7 @@ const res = require("express/lib/response");
  * @param {*} generation 
  * @returns 
  */
-exports.creteUser = async function (name, email, password, member, generation){
+exports.creteUser = async function (name, email, password, phone, birthdate, recommendUserId){
 
     const isEmailDuplicated = await userProvider.emailDuplicateCheck(email);
     try{
@@ -36,7 +36,7 @@ exports.creteUser = async function (name, email, password, member, generation){
          .update(password)
          .digest("hex");
 
-         const insertUserParams = [name, email, hashedPassword, member, generation];
+         const insertUserParams = [name, email, hashedPassword, phone, birthdate, recommendUserId];
 
          const connection = await pool.getConnection(async (conn) => conn);
          const userCreateResult = await userDao.insertUserInfo(connection, insertUserParams);
