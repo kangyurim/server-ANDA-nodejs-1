@@ -14,6 +14,20 @@ CREATE TABLE User(
 
     PRIMARY KEY (id, email)
 );
+SELECT * FROM User;
+
+# JWT Table
+CREATE TABLE RefreshToken(
+    `id` BIGINT AUTO_INCREMENT,
+    `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `email` VARCHAR(50) NOT NULL,
+    `refreshToken` text NOT NULL,
+
+    PRIMARY KEY (id, email),
+    FOREIGN KEY (email) REFERENCES User(email)
+);
+
 
 CREATE TABLE Ophthalmology(
     `id` BIGINT AUTO_INCREMENT,
