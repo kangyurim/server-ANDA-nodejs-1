@@ -116,3 +116,5 @@ config/jwtMiddleware.js
 OphthalmologyDATA.xlsx
 OphthalmologyDATA.csv
 hospitalInformationService.xls
+
+log/

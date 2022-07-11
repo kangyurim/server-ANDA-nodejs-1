@@ -15,6 +15,23 @@ CREATE TABLE User(
     PRIMARY KEY (id, email)
 );
 
+insert into User(name, email, password, phone, birthdate, recommendUserId)
+        VALUES('test1', 'test1@naver.com','test1pw', '010-0000-0000', '00-01-01', NULL);
+SELECT * FROM User;
+
+# JWT Table
+CREATE TABLE RefreshToken(
+    `id` BIGINT AUTO_INCREMENT,
+    `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `email` VARCHAR(50) NOT NULL,
+    `refreshToken` text NOT NULL,
+
+    PRIMARY KEY (id, email),
+    FOREIGN KEY (email) REFERENCES User(email)
+);
+
+
 CREATE TABLE Ophthalmology(
     `id` BIGINT AUTO_INCREMENT,
     `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
