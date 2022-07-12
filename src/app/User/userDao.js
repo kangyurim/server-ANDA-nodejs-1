@@ -6,7 +6,6 @@ async function selectUserEmail(connection, email) {
                     WHERE email = ?
                   `;
     const [emailRows] = await connection.query(selectUserEmailQuery, email);
-    console.log(emailRows);
     return emailRows;
 }
 

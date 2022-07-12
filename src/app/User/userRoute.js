@@ -12,7 +12,7 @@ module.exports = function(app){
     app.post('/app/users/signin', user.signinUser);
 
     // 3. 유저 이메일 중복 확인
-    app.get('/app/users/signin/:email', user.isDuplicateUser);
+    app.get('/app/users/signup/', user.isDuplicateUser);
 };
 
 
