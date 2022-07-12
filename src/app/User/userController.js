@@ -16,10 +16,10 @@ exports.postUsers = async function (req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0) {
         return res.send(response(baseResponse.BODY_EMPTY));
       }    
-    const {name, email, password, phone, birthdate, recommendUserId} = req.body;
+    const {nickname, email, password, recommendUserId} = req.body;
 
-    if(!name)
-        return res.send(response(baseResponse.SIGNUP_NAME_EMPTY));
+    if(!nickname)
+        return res.send(response(baseResponse.SIGNUP_NICKNAME_EMPTY));
     if(!email)
         return res.send(response(baseResponse.SIGNUP_EMAIL_EMPTY));
     if(!password)
@@ -27,11 +27,9 @@ exports.postUsers = async function (req, res) {
     //if(recommendUserId=='null') recommendUserId='NULL';
 
     const signupUserResponse = await userService.creteUser(
-        name,
+        nickname,
         email,
         password,
-        phone, 
-        birthdate, 
         recommendUserId
     )
 
