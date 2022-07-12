@@ -16,5 +16,8 @@ module.exports = {
 
     // Guestbook -> 방명록 관련 Error 코드
     GUESTBOOK_WRITER_EMPTY : {"isSuccess": false, "code": 3001, "message":"닉네임을 입력해주세요."},
-    GUESTBOOK_CONTENT_EMPTY : {"isSuccess": false, "code": 3001, "message":"방명록 내용을 입력해주세요."}
+    GUESTBOOK_CONTENT_EMPTY : {"isSuccess": false, "code": 3001, "message":"방명록 내용을 입력해주세요."},
+
+    //DB ERROR
+    DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
 }
