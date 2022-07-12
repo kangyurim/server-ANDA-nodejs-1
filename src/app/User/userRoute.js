@@ -10,6 +10,9 @@ module.exports = function(app){
 
     // 2. 유저 로그인 API
     app.post('/app/users/signin', user.signinUser);
+
+    // 3. 유저 이메일 중복 확인
+    app.get('/app/users/signin/:email', user.isDuplicateUser);
 };
 
 
