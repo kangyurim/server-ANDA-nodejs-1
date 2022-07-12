@@ -1,6 +1,7 @@
 const userService = require("./userService");
+const userProvider = require("./userProvider");
 
-const response = require("../../../config/response");
+const {response} = require("../../../config/response");
 const baseResponse = require("../../../config/baseResponseStatus");
 
 
@@ -53,4 +54,17 @@ exports.signinUser = async function (req, res){
     ) 
 
     return res.send(signinUserResponse);
+}
+
+exports.isDuplicateUser = async function(req, res){
+    const email = req.params.email;
+
+    if(!email)
+        return res.send(response.response(baseResponse.SIGNIN_EMAIL_EMPTY));
+    
+    const isDuplicateUserResponse = await userProvider.emailDuplicateCheck(email);
+
+    return res.send(isDuplicateUserResponse);
+    
+
 }
