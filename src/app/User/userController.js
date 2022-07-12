@@ -57,7 +57,7 @@ exports.signinUser = async function (req, res){
 }
 
 exports.isDuplicateUser = async function(req, res){
-    const email = req.params.email;
+    const email = req.query.email;
 
     if(!email)
         return res.send(response.response(baseResponse.SIGNIN_EMAIL_EMPTY));
