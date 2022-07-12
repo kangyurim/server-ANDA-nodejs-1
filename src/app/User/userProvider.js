@@ -19,8 +19,6 @@ exports.emailDuplicateCheck = async function (email) {
   let resultMsg = '';
   connection.release();
 
-  console.log(emailCheckResult[0].userCount)
-
   if(emailCheckResult[0].userCount==0) resultMsg = '사용 가능한 이메일입니다.';
   else resultMsg = '이미 가입된 이메일입니다.';
 

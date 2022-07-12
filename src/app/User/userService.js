@@ -26,7 +26,7 @@ exports.creteUser = async function (name, email, password, phone, birthdate, rec
 
     const isEmailDuplicated = await userProvider.emailDuplicateCheck(email);
     try{
-        if(isEmailDuplicated[0].userCount != 0){//이메일 중복이 있는 경우
+        if(isEmailDuplicated.result == '이미 가입된 이메일입니다.'){//이메일 중복이 있는 경우
             return errResponse(baseResponse.SIGNUP_EMAIL_DUPLICATED);
         }
 
@@ -75,7 +75,7 @@ exports.creteUser = async function (name, email, password, phone, birthdate, rec
                                                 'RefreshJWT': RefreshToken});
     }
     catch{
-        logger.error(`App - createUser Service error\n: ${err.message}`);
+        //logger.error(`App - createUser Service error\n: ${err.message}`);
         return errResponse(baseResponse.DB_ERROR);
     }
     
