@@ -72,6 +72,34 @@ CREATE TABLE IF NOT EXISTS Ophthalmology (
 );
 ALTER TABLE Ophthalmology ADD `id` BIGINT AUTO_INCREMENT
 
+CREATE TABLE Review(
+     `id` BIGINT AUTO_INCREMENT,
+    `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `ophthalmologyId` BIGINT NOT NULL,
+    `userId` BIGINT NOT NULL,
+    `reviewText` text NOT NULL,
+    `score` DECIMAL(4, 2) NOT NULL,
+    `status` VARCHAR(10) DEFAULT 'Activated' COMMENT 'Activate: 활성화된 상태, Inactivated: 비활성화된 상태,Block: 블락된 상태, Delete: 삭제된 상태',
+
+    FOREIGN KEY (ophthalmologyId) REFERENCES Ophthalmology(id),
+    FOREIGN KEY (userId) REFERENCES User(id),
+
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE ReviewMedia(
+    `id` BIGINT AUTO_INCREMENT,
+    `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `reviewId` BIGINT NOT NULL,
+    `picURL` text NOT NULL,
+    `status` VARCHAR(10) DEFAULT 'Activated' COMMENT 'Activate: 활성화된 상태, Inactivated: 비활성화된 상태,Block: 블락된 상태, Delete: 삭제된 상태',
+
+    PRIMARY KEY (id)
+);
+
+
 INSERT INTO Ophthalmology (UMCanda.Ophthalmology.name, UMCanda.Ophthalmology.cityName, UMCanda.Ophthalmology.townName, UMCanda.Ophthalmology.postCode, UMCanda.Ophthalmology.address, UMCanda.Ophthalmology.phoneNumber, UMCanda.Ophthalmology.URL, UMCanda.Ophthalmology.xCoordi, UMCanda.Ophthalmology.yCoordi)VALUES
     ('건양의료재단 김안과병원','서울','영등포구',7301,'서울특별시 영등포구 영신로 136 (영등포동4가)','1577-2639','http://www.kimeye.com/kimeye/',126.9015978,37.5196826),
     ('공안과병원','서울','강동구',5387,'서울특별시 강동구 풍성로37길 45 (성내동)','02-480-5000',NULL,127.1260542,37.5339302),
