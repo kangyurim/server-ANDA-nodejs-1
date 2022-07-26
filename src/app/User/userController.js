@@ -13,23 +13,20 @@ const { BODY_EMPTY } = require("../../../config/baseResponseStatus");
  * @param {json} res 
  */
 exports.postUsers = async function (req, res) {
-    if(req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        return res.send(response(baseResponse.BODY_EMPTY));
-      }    
-    const {nickname, email, password, recommendUserId} = req.body;
+    const {email, password, nickname, recommendUserId} = req.body;
 
-    if(!nickname)
-        return res.send(response(baseResponse.SIGNUP_NICKNAME_EMPTY));
     if(!email)
         return res.send(response(baseResponse.SIGNUP_EMAIL_EMPTY));
     if(!password)
         return res.send(response(baseResponse.SIGNUP_PASSWORD_EMPTY));
-    //if(recommendUserId=='null') recommendUserId='NULL';
+    if(!nickname)
+        return res.send(response(baseResponse.SIGNUP_NICKNAME_EMPTY));
+
 
     const signupUserResponse = await userService.creteUser(
-        nickname,
         email,
         password,
+        nickname,
         recommendUserId
     )
 
