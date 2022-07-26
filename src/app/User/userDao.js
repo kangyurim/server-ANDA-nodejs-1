@@ -9,6 +9,17 @@ async function selectUserEmail(connection, email) {
     return emailRows;
 }
 
+//닉네임으로 회원 중복 조회
+async function selectUserNickname(connection, nickname){
+  const selectUserNicknameQuery = `
+                    SELECT COUNT(nickname) AS userCount
+                    FROM User
+                    WHERE nickname = ?
+                  `;
+  const [nicknameRows] = await connection.query(selectUserNicknameQuery, nickname);
+  return nicknameRows;
+}
+
 // 유저 생성
 async function insertUserInfo(connection, insertUserInfoParams) {
     const insertUserInfoQuery = `
@@ -26,16 +37,16 @@ async function insertUserInfo(connection, insertUserInfoParams) {
 //유저 로그인
 async function signinUser(connection, signinUserParams){
   const signinUserQuery =`
-    select COUNT(email)
-    from User
-    WHERE email = ? AND password = ?;
+    SELECT id, createdAt, updatedAt, nickname, name, email, recommendUserId
+    FROM User
+    WHERE email = ? AND password = ? AND status='Activated';;
   `
   const signinUserRow = await connection.query(
     signinUserQuery,
     signinUserParams
   )
 
-  return signinUserRow;
+  return signinUserRow[0][0];
 }
 
 //Refresh Token 저장
@@ -76,6 +87,7 @@ async function updateRefreshToken(connection, refreshTokenParams){
 
 module.exports = {
     selectUserEmail,
+    selectUserNickname,
     insertUserInfo,
     signinUser,
     saveRefreshToken,
