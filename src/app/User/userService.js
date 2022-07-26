@@ -18,11 +18,12 @@ const res = require("express/lib/response");
  * @param {*} name 
  * @param {*} email 
  * @param {*} password 
+ * @param {*} nickname
  * @param {*} member 
  * @param {*} generation 
  * @returns 
  */
-exports.creteUser = async function (name, email, password, phone, birthdate, recommendUserId){
+exports.creteUser = async function (email, password, nickname, recommendUserId){
 
     const isEmailDuplicated = await userProvider.emailDuplicateCheck(email);
     try{
@@ -36,9 +37,11 @@ exports.creteUser = async function (name, email, password, phone, birthdate, rec
          .update(password)
          .digest("hex");
 
-         const insertUserParams = [name, email, hashedPassword, phone, birthdate, recommendUserId];
+         const insertUserParams = [email, hashedPassword, nickname, recommendUserId];
 
          const connection = await pool.getConnection(async (conn) => conn);
+         console.log("hi");
+
          const userCreateResult = await userDao.insertUserInfo(connection, insertUserParams);
         
          //토큰 생성 Service
