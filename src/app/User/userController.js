@@ -58,15 +58,25 @@ exports.signinUser = async function (req, res){
     return res.send(signinUserResponse);
 }
 
-exports.isDuplicateUser = async function(req, res){
-    const email = req.query.email;
+/**
+ * 이메일로 중복 유저 확인하기
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.isDuplicateEmailUser = async function(req, res){
+    const email = req.params.email;
 
-    if(!email)
-        return res.send(response.response(baseResponse.SIGNIN_EMAIL_EMPTY));
-    
+    console.log(email)
     const isDuplicateUserResponse = await userProvider.emailDuplicateCheck(email);
 
-    return res.send(isDuplicateUserResponse);
-    
+    return res.send(isDuplicateUserResponse);    
+}
 
+exports.isDuplicateNicknameUser = async function(req, res){
+    const nickname = req.params.nickname;
+
+    const isDuplicateUserResponse = await userProvider.nicknameDuplicateCheck(nickname);
+
+    return res.send(isDuplicateUserResponse);
 }

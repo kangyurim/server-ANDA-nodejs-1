@@ -36,7 +36,7 @@ exports.creteUser = async function (nickName, email, password, recommendUserId){
          .update(password)
          .digest("hex");
 
-         const insertUserParams = [nickName, email, password, recommendUserId];
+         const insertUserParams = [nickName, email, hashedPassword, recommendUserId];
 
          const connection = await pool.getConnection(async (conn) => conn);
          const userCreateResult = await userDao.insertUserInfo(connection, insertUserParams);
@@ -99,14 +99,18 @@ exports.signinUser = async function (email, password)
          const signinUserParams = [email, hashedPassword];
 
          const connection = await pool.getConnection(async (conn) => conn);
-         const userCreateResult = await userDao.signinUser(connection, signinUserParams);         
-
-         if(userCreateResult[0][0]['COUNT(email)'] == 1)
+         const userSignInResult = await userDao.signinUser(connection, signinUserParams); 
+         
+         if(userSignInResult != null)
          {
              //토큰 생성 Service
             let AccessToken = await jwt.sign(
                 {
-                    userEmail: email,
+                    id: userSignInResult.id,
+                    createAt: userSignInResult.createdAt,
+                    nickName: userSignInResult.nickName,
+                    email: userSignInResult.email,
+                    recommendUserId: userSignInResult.recommendUserId
                 }, // 토큰의 내용(payload)
                 secret_config.ACCESSjwtsecret, // 비밀키
                 {
@@ -117,13 +121,17 @@ exports.signinUser = async function (email, password)
 
             let RefreshToken = await jwt.sign(
                 {
-                    userEmail: email,
+                    id: userSignInResult.id,
+                    createAt: userSignInResult.createdAt,
+                    nickName: userSignInResult.nickName,
+                    email: userSignInResult.email,
+                    recommendUserId: userSignInResult.recommendUserId
                 }, // 토큰의 내용(payload)
                 secret_config.REFRESHjwtsecret, // 비밀키
                 {
-                    expiresIn: "6h",
+                    expiresIn: "2w",
                     subject: "userInfo",
-                } // 유효 기간 6시간
+                } // 유효 기간 2주
             );
 
             const refreshTokenParams = [RefreshToken, email]
@@ -134,9 +142,7 @@ exports.signinUser = async function (email, password)
                                                    'AccessJWT': AccessToken,
                                                     'RefreshJWT': RefreshToken});
         }
-           
-         if(userCreateResult[0][0]['COUNT(email)'] == 0)
-            return errResponse(baseResponse.SIGNIN_FAILED);
+        else return errResponse(baseResponse.SIGNIN_FAILED);
     }
     catch{
         logger.error(`App - signIn Service error\n: ${err.message}`);

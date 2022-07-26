@@ -24,3 +24,15 @@ exports.emailDuplicateCheck = async function (email) {
 
   return response(baseResponse.SUCCESS, resultMsg);
 }
+
+exports.nicknameDuplicateCheck = async function (nickname){
+  const connection = await pool.getConnection(async (conn) => conn);
+  const nicknameCheckResult = await userDao.selectUserNickname(connection, nickname);
+  let resultMsg = '';
+  connection.release();
+
+  if(nicknameCheckResult[0].userCount==0) resultMsg = '사용 가능한 닉네임입니다.';
+  else resultMsg = '이미 사용중인 닉네임입니다.';
+
+  return response(baseResponse.SUCCESS, resultMsg);
+}
