@@ -36,3 +36,15 @@ exports.nicknameDuplicateCheck = async function (nickname){
 
   return response(baseResponse.SUCCESS, resultMsg);
 }
+
+exports.jwtCheck = async function (token){
+  let checkTokenResult = new Object();
+    
+    checkTokenResult.result = "available";
+    checkTokenResult.exp = token.exp;
+    checkTokenResult.id = token.id,
+    checkTokenResult.email = token.email,
+    checkTokenResult.nickname = token.nickname
+
+    return response(baseResponse.SUCCESS, checkTokenResult);
+}

@@ -21,4 +21,7 @@ module.exports = {
 
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
+
+    //TOKEN ERROR
+    EMPTY_TOKEN : {"isSuccess": false, "code": 5101, "message":"토큰이 없습니다."}
 }
