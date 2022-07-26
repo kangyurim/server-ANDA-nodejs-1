@@ -19,7 +19,6 @@ async function insertUserInfo(connection, insertUserInfoParams) {
       insertUserInfoQuery,
       insertUserInfoParams
     );
-    console.log(insertUserInfoRow);
   
     return insertUserInfoRow;
 }

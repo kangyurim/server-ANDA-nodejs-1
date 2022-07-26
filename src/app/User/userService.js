@@ -40,42 +40,11 @@ exports.creteUser = async function (email, password, nickname, recommendUserId){
          const insertUserParams = [email, hashedPassword, nickname, recommendUserId];
 
          const connection = await pool.getConnection(async (conn) => conn);
-         console.log("hi");
-
          const userCreateResult = await userDao.insertUserInfo(connection, insertUserParams);
-        
-         //토큰 생성 Service
-        let AccessToken = await jwt.sign(
-            {
-                userEmail: email,
-            }, // 토큰의 내용(payload)
-            secret_config.ACCESSjwtsecret, // 비밀키
-            {
-                expiresIn: "3h",
-                subject: "userInfo",
-            } // 유효 기간 365일
-        );
-
-        let RefreshToken = await jwt.sign(
-            {
-                userEmail: email,
-            }, // 토큰의 내용(payload)
-            secret_config.REFRESHjwtsecret, // 비밀키
-            {
-                expiresIn: "6h",
-                subject: "userInfo",
-            } // 유효 기간 365일
-        );
-        
-        const refreshTokenParams = [email, RefreshToken]
-        const refreshTokenSaveResult = await userDao.saveRefreshToken(connection, refreshTokenParams)
-
         
          console.log('추가된 회원: ' + email);
          connection.release();
-         return response(baseResponse.SUCCESS, {'email': email, 
-                                                'AccessJWT': AccessToken,
-                                                'RefreshJWT': RefreshToken});
+         return response(baseResponse.SUCCESS, {'email': email});
     }
     catch{
         //logger.error(`App - createUser Service error\n: ${err.message}`);
