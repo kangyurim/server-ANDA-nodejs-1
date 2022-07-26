@@ -80,7 +80,7 @@ exports.signinUser = async function (email, password)
                 {
                     id: userSignInResult.id,
                     createAt: userSignInResult.createdAt,
-                    nickName: userSignInResult.nickName,
+                    nickname: userSignInResult.nickname,
                     email: userSignInResult.email,
                     recommendUserId: userSignInResult.recommendUserId
                 }, // 토큰의 내용(payload)

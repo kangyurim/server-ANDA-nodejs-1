@@ -16,11 +16,7 @@ module.exports = function(app){
 
     // 4. 유저 닉네임 중복 확인
     app.get('/app/users/signup/verify/nickname/:nickname', user.isDuplicateNicknameUser);
+
+    // 5. JWT 검증
+    app.get('/app/users/auto-login',jwtMiddleware, user.jwtCheck);
 };
-
-
-// TODO: 자동로그인 API (JWT 검증 및 Payload 내뱉기)
-// JWT 검증 API
-// app.get('/app/auto-login', jwtMiddleware, user.check);
-
-// TODO: 탈퇴하기 API
