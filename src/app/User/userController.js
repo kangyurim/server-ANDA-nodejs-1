@@ -61,9 +61,8 @@ exports.signinUser = async function (req, res){
  * @returns 
  */
 exports.isDuplicateEmailUser = async function(req, res){
-    const email = req.params.email;
+    const {email} = req.body;
 
-    console.log(email)
     const isDuplicateUserResponse = await userProvider.emailDuplicateCheck(email);
 
     return res.send(isDuplicateUserResponse);    
