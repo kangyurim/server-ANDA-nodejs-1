@@ -21,15 +21,14 @@ module.exports = {
     GUESTBOOK_WRITER_EMPTY : {"isSuccess": false, "code": 3001, "message":"닉네임을 입력해주세요."},
     GUESTBOOK_CONTENT_EMPTY : {"isSuccess": false, "code": 3001, "message":"방명록 내용을 입력해주세요."},
 
+    // Review -> 리뷰 관련 Error 코드
+    //REVIEW_POSTIMGURLS_EMPTY
+    REVIEW_CONTENT_LENGTH : { "isSuccess": false, "code": 4001, "message":"최소 10자 이상 작성해주세요." },
+    REVIEW_SCORE_EMPTY : { "isSuccess": false, "code": 4002, "message":"점수를 등록해주세요." },
+
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
 
     //TOKEN ERROR
-    EMPTY_TOKEN : {"isSuccess": false, "code": 5101, "message":"토큰이 없습니다."},
-    TOKEN_VERIFICATION_FAILURE : {"isSuccess": false, "code": 5102, "message":"잘못된 토큰입니다."},
-
-    //LOCATION ERROR
-    EMPTY_XCOORDI : {"isSuccess": false, "code": 5201, "message":"X좌표가 없습니다."},
-    EMPTY_YCOORDI : {"isSuccess": false, "code": 5202, "message":"Y좌표가 없습니다."},
-    EMPTY_WITHIN : {"isSuccess": false, "code": 5203, "message":"범위가 없습니다."},
+    EMPTY_TOKEN : {"isSuccess": false, "code": 5101, "message":"토큰이 없습니다."}
 }
