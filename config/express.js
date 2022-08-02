@@ -19,6 +19,6 @@ module.exports = function () {
     //domain 추가
     require('../src/app/User/userRoute')(app);
     require('../src/app/Location/locationRoute')(app);
-
+    
     return app;
 };

@@ -10,7 +10,7 @@ async function getHospitalLocationByLatitLongit(connection, getHospitalParams){
     having distance < 3
     order by distance DESC;`
 
-    const getHospitalLocationByLatitLongitQuery = `select  name, cityname, townname, postcode, address, phonenumber, url, xCoordi, yCoordi,
+    const getHospitalLocationByLatitLongitQuery = `select  id, name, cityname, townname, postcode, address, phonenumber, url, xCoordi, yCoordi,
     (6371*acos(cos(radians(?))*cos(radians(Op.yCoordi))*cos(radians(Op.xCoordi)-radians(?))+sin(radians(?))*sin(radians(Op.yCoordi)))) AS distance
     from Ophthalmology AS Op
     having distance < ?
