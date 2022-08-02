@@ -18,5 +18,5 @@ module.exports = function(app){
     app.get('/app/users/signup/verify/nickname/:nickname', user.isDuplicateNicknameUser);
 
     // 5. JWT 검증
-    app.get('/app/users/auto-login',jwtMiddleware, user.jwtCheck);
+    app.get('/app/users/auto-login', jwtMiddleware, user.jwtCheck);
 };
