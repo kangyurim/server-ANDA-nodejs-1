@@ -26,5 +26,10 @@ module.exports = {
 
     //TOKEN ERROR
     EMPTY_TOKEN : {"isSuccess": false, "code": 5101, "message":"토큰이 없습니다."},
-    TOKEN_VERIFICATION_FAILURE : {"isSuccess": false, "code": 5102, "message":"잘못된 토큰입니다."}
+    TOKEN_VERIFICATION_FAILURE : {"isSuccess": false, "code": 5102, "message":"잘못된 토큰입니다."},
+
+    //LOCATION ERROR
+    EMPTY_XCOORDI : {"isSuccess": false, "code": 5201, "message":"X좌표가 없습니다."},
+    EMPTY_YCOORDI : {"isSuccess": false, "code": 5202, "message":"Y좌표가 없습니다."},
+    EMPTY_WITHIN : {"isSuccess": false, "code": 5203, "message":"범위가 없습니다."},
 }

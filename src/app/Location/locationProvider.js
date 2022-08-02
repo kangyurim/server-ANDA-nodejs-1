@@ -8,10 +8,10 @@ const baseResponseStatus = require("../../../config/baseResponseStatus");
 
 const locationDao = require("./locationDao");
 
-exports.getHospitalLocationByLatitLongit = async function(req) {
+exports.getHospitalLocationByLatitLongit = async function(xCoordi, yCoordi, within) {
     try{
         const connection = await pool.getConnection(async (conn) => conn);
-        const getHospitalParams = [req["yCoordi"], req["xCoordi"], req["yCoordi"], req["within"]];
+        const getHospitalParams = [yCoordi, xCoordi, yCoordi, within];
         const getHospitalLocaResult = await locationDao.getHospitalLocationByLatitLongit(connection, getHospitalParams);
 
         connection.release();
