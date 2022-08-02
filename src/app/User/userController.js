@@ -3,7 +3,6 @@ const userProvider = require("./userProvider");
 
 const {response} = require("../../../config/response");
 const baseResponse = require("../../../config/baseResponseStatus");
-const { BODY_EMPTY } = require("../../../config/baseResponseStatus");
 
 
 
