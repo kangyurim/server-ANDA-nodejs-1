@@ -66,8 +66,6 @@ CREATE TABLE IF NOT EXISTS Ophthalmology (
     `xCoordi` NUMERIC(10, 7),
     `yCoordi` NUMERIC(10, 8),
     `status` VARCHAR(10) DEFAULT 'Activated' COMMENT 'Activate: 활성화된 상태, Inactivated: 비활성화된 상태,Block: 블락된 상태, Delete: 삭제된 상태',
-
-
     PRIMARY KEY (id)
 );
 ALTER TABLE Ophthalmology ADD `id` BIGINT AUTO_INCREMENT

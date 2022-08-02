@@ -10,7 +10,7 @@ const jwtMiddleware = (req, res, next) => {
     const token = req.headers['x-access-token'] || req.query.token;
     // token does not exist
     if(!token) {
-        return res.send(errResponse(baseResponse.TOKEN_EMPTY))
+        return res.send(errResponse(baseResponse.EMPTY_TOKEN))
     }
 
     // create a promise that decodes the token

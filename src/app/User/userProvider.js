@@ -42,9 +42,9 @@ exports.jwtCheck = async function (token){
     
     checkTokenResult.result = "available";
     checkTokenResult.exp = token.exp;
-    checkTokenResult.id = token.id,
-    checkTokenResult.email = token.email,
-    checkTokenResult.nickname = token.nickname
-
+    checkTokenResult.id = token.id;
+    checkTokenResult.email = token.email;
+    checkTokenResult.nickname = token.nickname;
+    
     return response(baseResponse.SUCCESS, checkTokenResult);
 }
