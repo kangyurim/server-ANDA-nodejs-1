@@ -63,15 +63,37 @@ exports.signinUser = async function (req, res){
 exports.isDuplicateEmailUser = async function(req, res){
     const email = req.params.email;
 
+    console.log(email)
     const isDuplicateUserResponse = await userProvider.emailDuplicateCheck(email);
 
     return res.send(isDuplicateUserResponse);    
 }
 
+/**
+ * 닉네임 중복 확인
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.isDuplicateNicknameUser = async function(req, res){
     const nickname = req.params.nickname;
 
     const isDuplicateUserResponse = await userProvider.nicknameDuplicateCheck(nickname);
 
     return res.send(isDuplicateUserResponse);
+}
+/**
+ * JWT Token verify
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.jwtCheck = async function(req, res){
+    const accessToken = req.verifiedToken;
+
+    if(!accessToken) return res.send(response.response(baseResponse.EMPTY_TOKEN))
+
+    const tokenVerifyRes = await userProvider.jwtCheck(accessToken);
+    
+    return res.send(tokenVerifyRes);
 }
