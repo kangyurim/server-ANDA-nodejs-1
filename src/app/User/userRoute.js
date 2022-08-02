@@ -15,7 +15,7 @@ module.exports = function(app){
     app.get('/app/users/signup/verify/email', user.isDuplicateEmailUser);
 
     // 4. 유저 닉네임 중복 확인
-    app.get('/app/users/signup/verify/nickname/:nickname', user.isDuplicateNicknameUser);
+    app.get('/app/users/signup/verify/nickname', user.isDuplicateNicknameUser);
 
     // 5. JWT 검증
     app.get('/app/users/auto-login', jwtMiddleware, user.jwtCheck);

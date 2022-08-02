@@ -6,7 +6,14 @@ const {errResponse} = require("../../../config/response");
 const reviewDao = require("./reviewDao");
 const reviewProvider = require("./reviewProvider");
 
-// 리뷰 작성
+/**
+ * 1. 병원 리뷰 남기기
+ * @param {*} hospitalId 
+ * @param {*} userId 
+ * @param {*} score 
+ * @param {*} content 
+ * @returns 
+ */
 exports.createReview = async function(hospitalId, userId, score, content) {
     const connection = await pool.getConnection(async (conn) => conn);
 

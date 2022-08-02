@@ -75,12 +75,15 @@ exports.isDuplicateEmailUser = async function(req, res){
  * @returns 
  */
 exports.isDuplicateNicknameUser = async function(req, res){
-    const nickname = req.params.nickname;
-
+    const {nickname} = req.body;
+    
     const isDuplicateUserResponse = await userProvider.nicknameDuplicateCheck(nickname);
 
-    return res.send(isDuplicateUserResponse);
+    return res.send({isDuplicateUserResponse})
 }
+
+
+
 /**
  * JWT Token verify
  * @param {*} req 
