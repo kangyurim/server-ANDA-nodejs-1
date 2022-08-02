@@ -15,6 +15,7 @@ exports.postReview = async function(req, res){
         Body: userIdx, content, postImgUrls
     */
     const {hospitalId, userId, score, content, postImgUrls} = req.body;
+    
 
     if(!score)
         return res.send(response(baseResponse.REVIEW_SCORE_EMPTY));
