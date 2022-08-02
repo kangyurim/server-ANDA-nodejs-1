@@ -3,9 +3,10 @@ async function selectUserEmail(connection, email) {
     const selectUserEmailQuery = `
                     SELECT COUNT(email) AS userCount
                     FROM User
-                    WHERE email = ?
+                    WHERE email = '${email}'
                   `;
-    const [emailRows] = await connection.query(selectUserEmailQuery, email);
+    const [emailRows] = await connection.query(selectUserEmailQuery);
+    console.log(emailRows[0])
     return emailRows;
 }
 
