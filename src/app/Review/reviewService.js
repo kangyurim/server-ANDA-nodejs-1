@@ -7,26 +7,25 @@ const reviewDao = require("./reviewDao");
 const reviewProvider = require("./reviewProvider");
 
 // 리뷰 작성
-exports.createReview = async function(userIdx, content, reviewImgUrls) {
+exports.createReview = async function(hospitalId, userId, score, content) {
     const connection = await pool.getConnection(async (conn) => conn);
 
     try {
-        await connection.beginTransaction();
 
-        const insertReviewParams = [userIdx, content];
+        const insertReviewParams = [hospitalId, userId, score, content];
+        const connection = await pool.getConnection(async (conn) => conn);
         const reviewResult = await reviewDao.insertReview(connection, insertReviewParams);
 
-        // 생성된 review의 idx
-        const reviewIdx = reviewResult[0].insertId;
-
-        for (reviewImgUrl of reviewImgUrls) {
-            const insertReviewImgParams = [reviewIdx, reviewImgUrl];
+        // 생성된 review의 id
+        const reviewId = reviewResult[0].insertId;
+        /*for (reviewImgUrl of reviewImgUrls) {
+            const insertReviewImgParams = [reviewId, reviewImgUrl];
             const reviewImgResult = await reviewDao.insertReviewImg(connection, insertReviewImgParams);
-        }
+        }*/
 
         await connection.commit();
 
-        return response(baseResponse.SUCCESS, { addedReview: reviewIdx });
+        return response(baseResponse.SUCCESS, { addedReview: reviewId });
     } catch (err) {
         console.log(`App - createReview Service Error\n: ${err.message}`);
 
