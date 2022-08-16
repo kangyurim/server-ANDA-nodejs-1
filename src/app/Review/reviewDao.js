@@ -5,7 +5,6 @@ async function insertReview(connect, insertReviewParams) {
         insert into Review(ophthalmologyId, userId, score, reviewText)
         VALUES (${insertReviewParams.hospitalId}, ${insertReviewParams.writerId}, ${insertReviewParams.score}, '${insertReviewParams.content}');
     `;
-    console.log("good 6");
     const insertReviewRow = await connect.query(insertReviewQuery);
 
     if(insertReviewRow[0].affectedRows == 1)
