@@ -2,6 +2,7 @@ const {logger} = require("../../../config/winston");
 const {pool} = require("../../../config/database");
 const secret_config = require("../../../config/secret");
 const baseResponse = require("../../../config/baseResponseStatus");
+const { smtpTransport } = require('../../../config/emailSecret');
 const {response} = require("../../../config/response");
 const {errResponse} = require("../../../config/response");
 
@@ -121,3 +122,32 @@ exports.signinUser = async function (email, password)
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+/**
+ * 이메일 인증하기
+ * @param {*} userEmail 
+ * @returns 
+ */
+
+exports.verifyEmail = async function(userEmail, code){
+        const mailOptions = {
+            from: "안다",
+            to: userEmail,
+            subject: "[안다] 이메일을 인증해주세요.",
+            text: "오른쪽 숫자 6자리를 입력해주세요 : " + code
+        };
+
+        const result = await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+            if(error){
+                return "mail send Failed"
+            }else{
+                return"SUCCESS"
+            }
+        });
+
+        console.log(result)
+        smtpTransport.close();
+
+    return response(baseResponse.SUCCESS, result);
+}
+  
