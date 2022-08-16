@@ -108,6 +108,7 @@ config/database.js
 config/secret.js
 config/jwtMiddleware
 config/publicAPIKey.js
+config/emailSecret.js
 
 .DS_Store
 

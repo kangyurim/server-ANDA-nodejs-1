@@ -3,6 +3,7 @@ const userProvider = require("./userProvider");
 
 const {response} = require("../../../config/response");
 const baseResponse = require("../../../config/baseResponseStatus");
+const baseResponseStatus = require("../../../config/baseResponseStatus");
 
 
 
@@ -98,4 +99,20 @@ exports.jwtCheck = async function(req, res){
     const tokenVerifyRes = await userProvider.jwtCheck(accessToken);
     
     return res.send(tokenVerifyRes);
+}
+
+/**
+ * 이메일인증하기
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.verifyEmail = async function(req, res){
+    const {email, code} = req.body;
+
+    if(!email) return res.send(baseResponse.SIGNUP_EMAIL_EMPTY);
+
+    const emailVerifyRes = await userService.verifyEmail(email, code);
+
+    return res.send(emailVerifyRes);
 }

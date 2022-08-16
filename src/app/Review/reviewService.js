@@ -14,32 +14,29 @@ const reviewProvider = require("./reviewProvider");
  * @param {*} content 
  * @returns 
  */
-exports.createReview = async function(hospitalId, userId, score, content) {
-    const connection = await pool.getConnection(async (conn) => conn);
-
+exports.createReview = async function(req, hospitalId, score, content, token) {
     try {
+        let insertReviewParams = new Object();
+        let s3Urls = new Array()
+        for(var i in req.files)
+        {
+            s3Urls.push(req.files[i].location)
+        }
+        insertReviewParams.hospitalId = hospitalId;
+        insertReviewParams.content = content;
+        insertReviewParams.score = score;
+        insertReviewParams.writerId = token.id;
+        insertReviewParams.pictureUrls = s3Urls;
 
-        const insertReviewParams = [hospitalId, userId, score, content];
         const connection = await pool.getConnection(async (conn) => conn);
         const reviewResult = await reviewDao.insertReview(connection, insertReviewParams);
 
-        // 생성된 review의 id
-        const reviewId = reviewResult[0].insertId;
-        /*for (reviewImgUrl of reviewImgUrls) {
-            const insertReviewImgParams = [reviewId, reviewImgUrl];
-            const reviewImgResult = await reviewDao.insertReviewImg(connection, insertReviewImgParams);
-        }*/
+        await connection.release();
 
-        await connection.commit();
-
-        return response(baseResponse.SUCCESS, { addedReview: reviewId });
+        return response(baseResponse.SUCCESS, { addedReview: reviewResult });
     } catch (err) {
         console.log(`App - createReview Service Error\n: ${err.message}`);
 
-        await connection.rollback();
-
         return errResponse(baseResponse.DB_ERROR);
-    } finally {
-        connection.release();
     }
 }
