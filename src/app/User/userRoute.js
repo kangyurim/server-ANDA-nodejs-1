@@ -19,4 +19,7 @@ module.exports = function(app){
 
     // 5. JWT 검증
     app.get('/app/users/auto-login', jwtMiddleware, user.jwtCheck);
+
+    // 6. 유저 이메일 인증
+    app.post('/app/users/signup/verify/email/code', user.verifyEmail);
 };

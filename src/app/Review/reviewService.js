@@ -16,14 +16,12 @@ const reviewProvider = require("./reviewProvider");
  */
 exports.createReview = async function(req, hospitalId, score, content, token) {
     try {
-        console.log("good 4");
         let insertReviewParams = new Object();
         let s3Urls = new Array()
         for(var i in req.files)
         {
             s3Urls.push(req.files[i].location)
         }
-        console.log("good 5");
         insertReviewParams.hospitalId = hospitalId;
         insertReviewParams.content = content;
         insertReviewParams.score = score;

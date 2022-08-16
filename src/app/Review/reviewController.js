@@ -11,13 +11,10 @@ const baseResponse = require("../../../config/baseResponseStatus");
  * @param {json} res 
  */
 exports.postReview = async function(req, res){
-    console.log("good 1");
     const token = req.verifiedToken;
-    console.log("good 2");
     if(!token)
         return res.send(response.response(baseResponse.TOKEN_EMPTY))
     const {hospitalId, score, content} = req.body;
-    console.log("good 3");
 
     if(!score)
         return res.send(response(baseResponse.REVIEW_SCORE_EMPTY));
