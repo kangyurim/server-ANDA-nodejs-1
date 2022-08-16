@@ -162,8 +162,6 @@ exports.verifyEmail = async function(userEmail, code){
                 return"SUCCESS"
             }
         });
-
-        console.log(result)
         smtpTransport.close();
 
     return response(baseResponse.SUCCESS, result);
