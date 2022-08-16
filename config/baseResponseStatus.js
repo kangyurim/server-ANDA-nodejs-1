@@ -29,6 +29,8 @@ module.exports = {
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
 
-    //TOKEN ERROR
-    EMPTY_TOKEN : {"isSuccess": false, "code": 5101, "message":"토큰이 없습니다."}
+     //TOEKN 관련 Error
+     TOKEN_EMPTY : { "isSuccess": false, "code": 5101, "message":"토큰이 없습니다."},
+     TOKEN_EMAIL_EMPTY: { "isSuccess": false, "code": 5102, "message":"이메일이 없습니다."},
+     TOKEN_VERIFICATION_FAILURE: { "isSuccess": false, "code": 5103, "message":"토큰 해독 에러"},
 }

@@ -11,26 +11,25 @@ const baseResponse = require("../../../config/baseResponseStatus");
  * @param {json} res 
  */
 exports.postReview = async function(req, res){
-    /*
-        Body: userIdx, content, postImgUrls
-    */
-    const {hospitalId, userId, score, content, postImgUrls} = req.body;
-    
+    console.log("good 1");
+    const token = req.verifiedToken;
+    console.log("good 2");
+    if(!token)
+        return res.send(response.response(baseResponse.TOKEN_EMPTY))
+    const {hospitalId, score, content} = req.body;
+    console.log("good 3");
 
     if(!score)
         return res.send(response(baseResponse.REVIEW_SCORE_EMPTY));
     if(content.length < 10)
         return res.send(response(baseResponse.REVIEW_CONTENT_LENGTH));
-    /*if(postImgUrls.length <= 0)
-        return res.send(response(baseResponse.POST_POSTIMGURLS_EMPTY));
-    */
 
     const postReviewResponse = await reviewService.createReview(
+        req,
         hospitalId,
-        userId,
         score,
         content,
-        postImgUrls
+        token
     );
 
     return res.send(postReviewResponse);
