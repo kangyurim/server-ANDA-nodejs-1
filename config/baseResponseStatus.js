@@ -25,6 +25,8 @@ module.exports = {
     //REVIEW_POSTIMGURLS_EMPTY
     REVIEW_CONTENT_LENGTH : { "isSuccess": false, "code": 4001, "message":"최소 10자 이상 작성해주세요." },
     REVIEW_SCORE_EMPTY : { "isSuccess": false, "code": 4002, "message":"점수를 등록해주세요." },
+    REVIEW_OPHTHALMOLOHYID_EMPTY : { "isSuccess": false, "code": 4003, "message":"병원id를 입력해주세요." },
+    REVIEW_OPHTHALMOLOHYID_LENGTH : { "isSuccess": false, "code": 4004, "message":"병원id는 0보다 큰 값으로 입력해주세요." },
 
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},

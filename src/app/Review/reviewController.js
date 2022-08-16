@@ -42,5 +42,22 @@ exports.postReview = async function(req, res){
  * @param {json} res 
  */
  exports.getReview = async function(req, res){
+    /*
+        Body: ophthalmologyId
+    */
 
+    const {ophthalmologyId} = req.body;
+    
+        // validation
+        if(!ophthalmologyId) {
+            return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_EMPTY));
+        }
+        if (ophthalmologyId <= 0) {
+            return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_LENGTH));
+        }
+    
+        const reviewListResult = await reviewProvider.retrieveReviewLists(ophthalmologyId);
+    
+        return res.send(response(baseResponse.SUCCESS, reviewListResult));
+    
  }
