@@ -51,8 +51,8 @@ async function selectReviewStatus(connection, reviewId) {
     return reviewStatusRow;
 }
 
-async function insertReview(connection, insertReviewParams) {
-
+async function insertReview(connect, insertReviewParams) {
+    let result = new Object();
     const insertReviewQuery = `
         insert into Review(ophthalmologyId, userId, score, reviewText)
         VALUES (${insertReviewParams.hospitalId}, ${insertReviewParams.writerId}, ${insertReviewParams.score}, '${insertReviewParams.content}');
@@ -66,9 +66,152 @@ async function insertReview(connection, insertReviewParams) {
        
         if(insertReviewParams.pictureUrls.length != 0)
         {
-            console.log(insertId);
             for(var i in insertReviewParams.pictureUrls)
             {   const insertMediaQuery = `INSERT INTO ReviewMedia(reviewId, picURL) VALUES(${insertId}, ?)`
+                const insertMediaQueryRes = await connect.query(insertMediaQuery, insertReviewParams.pictureUrls[i])
+                if(insertMediaQueryRes[0].affectedRows != 1) 
+                {
+                    result.mediaInptRes = 'FAIL';
+                    break;
+                }
+            }
+            result.mediaInptRes = 'SUCCESS';
+        }
+        else if(insertReviewParams.pictureUrls.length == 0)
+        {
+            result.mediaInptRes = 'NULL BUT SUCCESS';
+        }
+    }
+    else  result.titleInptRes = 'FAIL';
+
+    return result
+}
+
+async function lasicReview(connect, insertReviewParams) {
+    let result = new Object();
+    const insertReviewQuery = `
+        insert into LasicReview(ophthalmologyId, userId, score, reviewText)
+        VALUES (${insertReviewParams.hospitalId}, ${insertReviewParams.writerId}, ${insertReviewParams.score}, '${insertReviewParams.content}');
+    `;
+    const insertReviewRow = await connect.query(insertReviewQuery);
+
+    if(insertReviewRow[0].affectedRows == 1)
+    {
+        result.titleInptRes = 'SUCCESS';
+        const insertId = insertReviewRow[0].insertId;
+       
+        if(insertReviewParams.pictureUrls.length != 0)
+        {
+            for(var i in insertReviewParams.pictureUrls)
+            {   const insertMediaQuery = `INSERT INTO LasicReviewMedia(reviewId, picURL) VALUES(${insertId}, ?)`
+                const insertMediaQueryRes = await connect.query(insertMediaQuery, insertReviewParams.pictureUrls[i])
+                if(insertMediaQueryRes[0].affectedRows != 1) 
+                {
+                    result.mediaInptRes = 'FAIL';
+                    break;
+                }
+            }
+            result.mediaInptRes = 'SUCCESS';
+        }
+        else if(insertReviewParams.pictureUrls.length == 0)
+        {
+            result.mediaInptRes = 'NULL BUT SUCCESS';
+        }
+    }
+    else  result.titleInptRes = 'FAIL';
+
+    return result
+}
+
+async function lasecReview(connect, insertReviewParams) {
+    let result = new Object();
+    const insertReviewQuery = `
+        insert into LasecReview(ophthalmologyId, userId, score, reviewText)
+        VALUES (${insertReviewParams.hospitalId}, ${insertReviewParams.writerId}, ${insertReviewParams.score}, '${insertReviewParams.content}');
+    `;
+    const insertReviewRow = await connect.query(insertReviewQuery);
+
+    if(insertReviewRow[0].affectedRows == 1)
+    {
+        result.titleInptRes = 'SUCCESS';
+        const insertId = insertReviewRow[0].insertId;
+       
+        if(insertReviewParams.pictureUrls.length != 0)
+        {
+            for(var i in insertReviewParams.pictureUrls)
+            {   const insertMediaQuery = `INSERT INTO LasecReviewMedia(reviewId, picURL) VALUES(${insertId}, ?)`
+                const insertMediaQueryRes = await connect.query(insertMediaQuery, insertReviewParams.pictureUrls[i])
+                if(insertMediaQueryRes[0].affectedRows != 1) 
+                {
+                    result.mediaInptRes = 'FAIL';
+                    break;
+                }
+            }
+            result.mediaInptRes = 'SUCCESS';
+        }
+        else if(insertReviewParams.pictureUrls.length == 0)
+        {
+            result.mediaInptRes = 'NULL BUT SUCCESS';
+        }
+    }
+    else  result.titleInptRes = 'FAIL';
+
+    return result
+}
+
+async function smileLasicReview(connect, insertReviewParams) {
+    let result = new Object();
+    const insertReviewQuery = `
+        insert into SmileLasicReview(ophthalmologyId, userId, score, reviewText)
+        VALUES (${insertReviewParams.hospitalId}, ${insertReviewParams.writerId}, ${insertReviewParams.score}, '${insertReviewParams.content}');
+    `;
+    const insertReviewRow = await connect.query(insertReviewQuery);
+
+    if(insertReviewRow[0].affectedRows == 1)
+    {
+        result.titleInptRes = 'SUCCESS';
+        const insertId = insertReviewRow[0].insertId;
+       
+        if(insertReviewParams.pictureUrls.length != 0)
+        {
+            for(var i in insertReviewParams.pictureUrls)
+            {   const insertMediaQuery = `INSERT INTO SmileLasicReviewMedia(reviewId, picURL) VALUES(${insertId}, ?)`
+                const insertMediaQueryRes = await connect.query(insertMediaQuery, insertReviewParams.pictureUrls[i])
+                if(insertMediaQueryRes[0].affectedRows != 1) 
+                {
+                    result.mediaInptRes = 'FAIL';
+                    break;
+                }
+            }
+            result.mediaInptRes = 'SUCCESS';
+        }
+        else if(insertReviewParams.pictureUrls.length == 0)
+        {
+            result.mediaInptRes = 'NULL BUT SUCCESS';
+        }
+    }
+    else  result.titleInptRes = 'FAIL';
+
+    return result
+}
+
+async function lensInsertReview(connect, insertReviewParams) {
+    let result = new Object();
+    const insertReviewQuery = `
+        insert into LensInsertReview(ophthalmologyId, userId, score, reviewText)
+        VALUES (${insertReviewParams.hospitalId}, ${insertReviewParams.writerId}, ${insertReviewParams.score}, '${insertReviewParams.content}');
+    `;
+    const insertReviewRow = await connect.query(insertReviewQuery);
+
+    if(insertReviewRow[0].affectedRows == 1)
+    {
+        result.titleInptRes = 'SUCCESS';
+        const insertId = insertReviewRow[0].insertId;
+       
+        if(insertReviewParams.pictureUrls.length != 0)
+        {
+            for(var i in insertReviewParams.pictureUrls)
+            {   const insertMediaQuery = `INSERT INTO LensInsertReviewMedia(reviewId, picURL) VALUES(${insertId}, ?)`
                 const insertMediaQueryRes = await connect.query(insertMediaQuery, insertReviewParams.pictureUrls[i])
                 if(insertMediaQueryRes[0].affectedRows != 1) 
                 {
@@ -103,5 +246,9 @@ module.exports = {
     selectReviews,
     selectReviewStatus,
     insertReview,
-    insertReviewImg
+    insertReviewImg,
+    lasicReview,
+    lasecReview,
+    smileLasicReview,
+    lensInsertReview
 }

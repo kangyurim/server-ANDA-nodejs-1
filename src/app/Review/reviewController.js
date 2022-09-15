@@ -14,16 +14,21 @@ exports.postReview = async function(req, res){
     const token = req.verifiedToken;
     if(!token)
         return res.send(response.response(baseResponse.TOKEN_EMPTY))
-    const {hospitalId, score, content} = req.body;
+    const {hospitalId, reviewType, score, content} = req.body;
 
     if(!score)
         return res.send(response(baseResponse.REVIEW_SCORE_EMPTY));
+    if(!reviewType)
+        return res.send(response(baseResponse.REVIEW_TYPE_EMPTY));
     if(content.length < 10)
         return res.send(response(baseResponse.REVIEW_CONTENT_LENGTH));
+
+    if(reviewType != 'normal' && reviewType != 'lasic' && reviewType != 'lasec' && reviewType != 'smile-lasic' && reviewType != 'lens-insert') return res.send(response(baseResponse.REVIEW_TYPE_INVALIED));
 
     const postReviewResponse = await reviewService.createReview(
         req,
         hospitalId,
+        reviewType,
         score,
         content,
         token

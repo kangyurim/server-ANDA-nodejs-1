@@ -14,7 +14,7 @@ const reviewProvider = require("./reviewProvider");
  * @param {*} content 
  * @returns 
  */
-exports.createReview = async function(req, hospitalId, score, content, token) {
+exports.createReview = async function(req, hospitalId, reviewType, score,content, token) {
     try {
         let insertReviewParams = new Object();
         let s3Urls = new Array()
@@ -25,13 +25,20 @@ exports.createReview = async function(req, hospitalId, score, content, token) {
         insertReviewParams.hospitalId = hospitalId;
         insertReviewParams.content = content;
         insertReviewParams.score = score;
+        insertReviewParams.reviewType = reviewType;
         insertReviewParams.writerId = token.id;
         insertReviewParams.pictureUrls = s3Urls;
 
         const connection = await pool.getConnection(async (conn) => conn);
-        const reviewResult = await reviewDao.insertReview(connection, insertReviewParams);
+        let reviewResult;
+        if(reviewType == 'normal') reviewResult = await reviewDao.insertReview(connection, insertReviewParams);
+        if(reviewType == 'lasic') reviewResult = await reviewDao.lasicReview(connection, insertReviewParams);
+        if(reviewType == 'lasec') reviewResult = await reviewDao.lasecReview(connection, insertReviewParams);
+        if(reviewType == 'smile-lasic') reviewResult = await reviewDao.smileLasicReview(connection, insertReviewParams);
+        if(reviewType == 'lens-insert') reviewResult = await reviewDao.lensInsertReview(connection, insertReviewParams);
 
-        await connection.release();
+
+        connection.release();
 
         return response(baseResponse.SUCCESS, { addedReview: reviewResult });
     } catch (err) {
