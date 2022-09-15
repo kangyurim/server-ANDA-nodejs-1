@@ -213,3 +213,11 @@ having distance < 3
 order by distance DESC;
 
 select * from Ophthalmology WHERE cityName="서울";
+
+SELECT *
+FROM LensInsertReview
+WHERE ophthalmologyId = 10000
+
+SELECT *
+FROM LensInsertReviewMedia
+WHERE reviewId = 2
