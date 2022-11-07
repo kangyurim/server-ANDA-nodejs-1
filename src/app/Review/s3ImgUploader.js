@@ -31,7 +31,7 @@ let randomStr = generateRandomString(15)
 const imageUploader = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'umc-anda', // 생성한 버킷 이름을 적어주세요.
+    bucket: 'anda-bucket', // 생성한 버킷 이름을 적어주세요.
     key: (req, file, callback) => {
       const uploadDirectory = randomStr // 업로드할 디렉토리를 설정하기 위해 넣어둔 코드로, 없어도 무관합니다.
       const extension = path.extname(file.originalname)

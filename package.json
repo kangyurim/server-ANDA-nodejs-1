@@ -39,5 +39,9 @@
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.2.1",
     "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "swagger-jsdoc": "6.2.5",
+    "swagger-ui-express": "4.5.0"
   }
 }
