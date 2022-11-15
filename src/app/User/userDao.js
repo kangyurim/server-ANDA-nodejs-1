@@ -124,6 +124,52 @@ async function insertDoctorUserInfo(connection, InsertDocotUserParams){
   return doctorUserCreateRow;
 }
 
+//핸드폰 번호로 ID 찾기
+async function findId(connection, phone, userType){
+  let findIdQuery = '';
+  if(userType == 'user'){
+    findIdQuery = `
+      SELECT email
+      FROM User
+      WHERE phone = '${phone}';
+    `
+  }
+
+  else if(userType == 'doctor'){
+    findIdQuery = `
+      SELECT email
+      FROM DoctorUser
+      WHERE phone = '${phone}';
+    `
+  }
+
+  const [email] = await connection.query(findIdQuery);
+
+  return email;
+}
+
+//비밀번호 수정하기
+async function updatePassword(connection, updatePasswordParams){
+  const [userType, email, hashedPassword] = updatePasswordParams;
+  let updatePasswordQuery = '';
+  if(userType == 'user'){
+  updatePasswordQuery = `
+    UPDATE User SET password = ? WHERE email = ?;
+    `
+  }
+  else if(userType == 'doctor'){
+    updatePasswordQuery = `
+    UPDATE DoctorUser SET password = ? WHERE email = ?;
+    `
+  }
+  const updatePasswordRow = await connection.query(
+    updatePasswordQuery,
+    [hashedPassword, email]
+  );
+  
+  return updatePasswordRow;
+}
+
 module.exports = {
     selectUserEmail,
     selectUserNickname,
@@ -134,4 +180,6 @@ module.exports = {
     insertDoctorUserInfo,
     selectDoctorUserEmail,
     signinDoctorUser,
+    findId,
+    updatePassword,
 }

@@ -52,7 +52,16 @@ exports.creteUser = async function (email, password, nickname, recommendUserId){
     }
     
 }
-
+/**
+ * 의사 유저 생성 API
+ * @param {*} nickname 
+ * @param {*} email 
+ * @param {*} password 
+ * @param {*} phone 
+ * @param {*} hospitalName 
+ * @param {*} recommendUserId 
+ * @returns 
+ */
 exports.creteDoctorUser = async function (nickname, email, password, phone, hospitalName, recommendUserId){
     try{
         //비밀번호 암호화
@@ -254,4 +263,44 @@ exports.verifyEmail = async function(userEmail, code){
 
     return response(baseResponse.SUCCESS, result);
 }
-  
+
+/**
+ * 폰번호로 아이디 가져오기.
+ * @param {*} phone 
+ * @param {*} userType 
+ * @returns 
+ */
+exports.findId = async function (phone, userType) {
+    try {
+        const connection = await pool.getConnection(async (conn) => conn);
+        const findIdResult = await userDao.findId(connection, phone, userType);
+        connection.release();
+
+        if(findIdResult.length > 0) return response(baseResponse.SUCCESS, findIdResult);
+        if(findIdResult.length == 0) return response(baseResponse.USER_ID_NOT_EXIST);
+    } catch (err) {
+        logger.error(`App - findId Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
+
+exports.updatePassword = async function (userType, email, password) {
+    try{
+        const connection = await pool.getConnection(async (conn) => conn);
+        // 비밀번호 암호화
+        const hashedPassword = await crypto
+        .createHash("sha512")
+        .update(password)
+        .digest("hex");
+
+        const updatePasswordParams = [userType, email, hashedPassword];
+        const updatePasswordResult = await userDao.updatePassword(connection, updatePasswordParams);
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+    }
+    catch{
+        logger.error(`App - findId Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}

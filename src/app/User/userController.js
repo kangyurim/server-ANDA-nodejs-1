@@ -183,3 +183,42 @@ exports.postDoctor = async function(req, res){
 
     return res.send(signupDoctorResponse);
 }
+
+/**
+ * 핸드폰 번호로 아이디 찾기 API
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.findId = async function(req, res){
+    const phone = req.body.phone;
+    const userType = req.body.userType;
+
+    if(!userType) return res.send(baseResponse.CHECK_USER_TYPE_EMPTY);
+    if(!phone) return res.send(baseResponse.CHECK_PHONENUMBER_EMPTY);
+
+    const findIdResponse = await userService.findId(phone, userType);
+
+    return res.send(findIdResponse);
+}
+
+/**
+ * 회원 비밀번호 업데이트 API
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.updatePassword = async function(req, res){
+    const userType = req.body.userType;
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if(!userType) return res.send(baseResponse.CHECK_USER_TYPE_EMPTY);
+    if(!email) return res.send(baseResponse.SIGNUP_EMAIL_EMPTY);
+    if(!password) return res.send(baseResponse.SIGNUP_PASSWORD_EMPTY);
+
+    if(userType != 'user' && userType != 'doctor') return res.send(baseResponse.CHECK_USER_TYPE);
+    const updatePasswordResponse = await userService.updatePassword(userType, email, password);
+
+    return res.send(updatePasswordResponse);
+}
