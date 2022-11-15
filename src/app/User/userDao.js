@@ -6,8 +6,18 @@ async function selectUserEmail(connection, email) {
                     WHERE email = '${email}'
                   `;
     const [emailRows] = await connection.query(selectUserEmailQuery);
-    console.log(emailRows[0])
     return emailRows;
+}
+
+// [의사] 이메일로 회원 중복 조회
+async function selectDoctorUserEmail(connection, email) {
+  const selectUserEmailQuery = `
+                  SELECT COUNT(email) AS userCount
+                  FROM DoctorUser
+                  WHERE email = '${email}'
+                `;
+  const [emailRows] = await connection.query(selectUserEmailQuery);
+  return emailRows;
 }
 
 //닉네임으로 회원 중복 조회
@@ -108,4 +118,5 @@ module.exports = {
     saveRefreshToken,
     updateRefreshToken,
     insertDoctorUserInfo,
+    selectDoctorUserEmail,
 }

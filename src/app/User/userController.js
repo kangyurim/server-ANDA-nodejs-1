@@ -70,6 +70,20 @@ exports.isDuplicateEmailUser = async function(req, res){
 }
 
 /**
+ * 이메일로 중복 의사 유저 확인하기
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ exports.isDuplicateEmailUserDoctor = async function(req, res){
+    const {email} = req.body;
+
+    const isDuplicateUserResponse = await userProvider.doctorEmailDuplicateCheck(email);
+
+    return res.send(isDuplicateUserResponse);    
+}
+
+/**
  * 닉네임 중복 확인
  * @param {*} req 
  * @param {*} res 

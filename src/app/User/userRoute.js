@@ -26,4 +26,6 @@ module.exports = function(app){
     //--------------
     // 7 . 의사 회원가입
     app.post('/app/users/signup/doctor', user.postDoctor);
+    // 8. 의사 이메일 중복 확인
+    app.get('/app/users/signup/doctor/verify/email', user.isDuplicateEmailUserDoctor);
 };
