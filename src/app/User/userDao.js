@@ -86,11 +86,26 @@ async function updateRefreshToken(connection, refreshTokenParams){
   return 1;
 }
 
+//의사 유저 생성
+async function insertDoctorUserInfo(connection, InsertDocotUserParams){
+  const doctorUserCreateQuery = `
+    insert into DoctorUser(nickname, email, password, phone, hospitalName, recommendUserId)
+    VALUES(?, ?, ?, ?, ?, ?);
+  `
+  const doctorUserCreateRow = await connection.query(
+    doctorUserCreateQuery,
+    InsertDocotUserParams
+  );
+
+  return doctorUserCreateRow;
+}
+
 module.exports = {
     selectUserEmail,
     selectUserNickname,
     insertUserInfo,
     signinUser,
     saveRefreshToken,
-    updateRefreshToken
+    updateRefreshToken,
+    insertDoctorUserInfo,
 }

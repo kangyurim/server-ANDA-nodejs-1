@@ -43,7 +43,6 @@ exports.creteUser = async function (email, password, nickname, recommendUserId){
          const connection = await pool.getConnection(async (conn) => conn);
          const userCreateResult = await userDao.insertUserInfo(connection, insertUserParams);
         
-         console.log('추가된 회원: ' + email);
          connection.release();
          return response(baseResponse.SUCCESS, {'email': email});
     }
@@ -52,6 +51,26 @@ exports.creteUser = async function (email, password, nickname, recommendUserId){
         return errResponse(baseResponse.DB_ERROR);
     }
     
+}
+
+exports.creteDoctorUser = async function (nickname, email, password, phone, hospitalName, recommendUserId){
+    try{
+        //비밀번호 암호화
+        const hashedPassword = await crypto
+        .createHash("sha512")
+        .update(password)
+        .digest("hex");
+        
+        const InsertDocotUserParams = [nickname, email, hashedPassword, phone, hospitalName, recommendUserId];
+        const connection = await pool.getConnection(async (conn) => conn);
+        const doctorUserCreateResult = await userDao.insertDoctorUserInfo(connection, InsertDocotUserParams);
+
+        connection.release();
+        return response(baseResponse.SUCCESS, {'email': email});
+    }
+    catch{
+        return errResponse(baseResponse.DB_ERROR);
+    }
 }
 
 /**

@@ -116,3 +116,34 @@ exports.verifyEmail = async function(req, res){
 
     return res.send(emailVerifyRes);
 }
+
+/**
+ * 의사 회원가입
+ * @param {*} req
+ *  @param {*} res
+ */
+exports.postDoctor = async function(req, res){
+    const {nickname, email, password, phone, hospitalName, recommendUserId} = req.body;
+
+    if(!email)
+        return res.send(baseResponse.SIGNUP_EMAIL_EMPTY);
+    if(!password)
+        return res.send(baseResponse.SIGNUP_PASSWORD_EMPTY);
+    if(!nickname)
+        return res.send(baseResponse.SIGNUP_NICKNAME_EMPTY);
+    if(!phone)
+        return res.send(baseResponse.SIGNUP_PHONE_EMPTY);
+    if(!hospitalName)
+        return res.send(baseResponse.SIGNUP_HOSPITALNAME_EMPTY);
+
+    const signupDoctorResponse = await userService.creteDoctorUser(
+        nickname, 
+        email, 
+        password, 
+        phone, 
+        hospitalName, 
+        recommendUserId
+    )
+
+    return res.send(signupDoctorResponse);
+}
