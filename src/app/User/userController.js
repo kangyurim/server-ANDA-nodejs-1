@@ -183,3 +183,20 @@ exports.postDoctor = async function(req, res){
 
     return res.send(signupDoctorResponse);
 }
+
+/**
+ * 핸드폰 번호로 아이디 찾기 API
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.findId = async function(req, res){
+    const phone = req.body.phone;
+    const userType = req.body.userType;
+
+    if(!phone) return res.send(baseResponse.CHECK_PHONENUMBER_EMPTY);
+
+    const findIdResponse = await userService.findId(phone, userType);
+
+    return res.send(findIdResponse);
+}

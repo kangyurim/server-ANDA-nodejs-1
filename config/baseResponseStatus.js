@@ -21,6 +21,10 @@ module.exports = {
     SIGNIN_NICKNAME_EMPTY : { "isSuccess": false, "code": 2103, "message":"닉네임을 입력해주세요." },
     SIGNIN_FAILED : { "isSuccess": false, "code": 2104, "message":"이메일/비밀번호를 확인해주세요."},
 
+    // User -> 회원정보 관련 Error 코드
+    CHECK_PHONENUMBER_EMPTY : {"isSuccess": false, "code": 2201, "message":"핸드폰 번호를 입력해주세요."},
+    USER_ID_NOT_EXIST : {"isSuccess": false, "code": 2202, "message":"존재하지 않는 회원입니다."},
+
     // Guestbook -> 방명록 관련 Error 코드
     GUESTBOOK_WRITER_EMPTY : {"isSuccess": false, "code": 3001, "message":"닉네임을 입력해주세요."},
     GUESTBOOK_CONTENT_EMPTY : {"isSuccess": false, "code": 3001, "message":"방명록 내용을 입력해주세요."},

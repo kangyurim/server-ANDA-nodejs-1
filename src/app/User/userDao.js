@@ -124,6 +124,30 @@ async function insertDoctorUserInfo(connection, InsertDocotUserParams){
   return doctorUserCreateRow;
 }
 
+//핸드폰 번호로 ID 찾기
+async function findId(connection, phone, userType){
+  let findIdQuery = '';
+  if(userType == 'user'){
+    findIdQuery = `
+      SELECT email
+      FROM User
+      WHERE phone = '${phone}';
+    `
+  }
+
+  else if(userType == 'doctor'){
+    findIdQuery = `
+      SELECT email
+      FROM DoctorUser
+      WHERE phone = '${phone}';
+    `
+  }
+
+  const [email] = await connection.query(findIdQuery);
+
+  return email;
+
+}
 module.exports = {
     selectUserEmail,
     selectUserNickname,
@@ -134,4 +158,5 @@ module.exports = {
     insertDoctorUserInfo,
     selectDoctorUserEmail,
     signinDoctorUser,
+    findId,
 }
