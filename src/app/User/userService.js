@@ -283,3 +283,24 @@ exports.findId = async function (phone, userType) {
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+exports.updatePassword = async function (userType, email, password) {
+    try{
+        const connection = await pool.getConnection(async (conn) => conn);
+        // 비밀번호 암호화
+        const hashedPassword = await crypto
+        .createHash("sha512")
+        .update(password)
+        .digest("hex");
+
+        const updatePasswordParams = [userType, email, hashedPassword];
+        const updatePasswordResult = await userDao.updatePassword(connection, updatePasswordParams);
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+    }
+    catch{
+        logger.error(`App - findId Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}

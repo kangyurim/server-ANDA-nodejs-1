@@ -24,6 +24,8 @@ module.exports = {
     // User -> 회원정보 관련 Error 코드
     CHECK_PHONENUMBER_EMPTY : {"isSuccess": false, "code": 2201, "message":"핸드폰 번호를 입력해주세요."},
     USER_ID_NOT_EXIST : {"isSuccess": false, "code": 2202, "message":"존재하지 않는 회원입니다."},
+    CHECK_USER_TYPE_EMPTY: {"isSuccess": false, "code": 2203, "message":"회원 타입을 입력해주세요."},
+    CHECK_USER_TYPE: {"isSuccess": false, "code": 2204, "message":"회원 타입을 확인해주세요.(user 혹은 doctor)"},
 
     // Guestbook -> 방명록 관련 Error 코드
     GUESTBOOK_WRITER_EMPTY : {"isSuccess": false, "code": 3001, "message":"닉네임을 입력해주세요."},

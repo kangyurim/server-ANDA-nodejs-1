@@ -146,8 +146,30 @@ async function findId(connection, phone, userType){
   const [email] = await connection.query(findIdQuery);
 
   return email;
-
 }
+
+//비밀번호 수정하기
+async function updatePassword(connection, updatePasswordParams){
+  const [userType, email, hashedPassword] = updatePasswordParams;
+  let updatePasswordQuery = '';
+  if(userType == 'user'){
+  updatePasswordQuery = `
+    UPDATE User SET password = ? WHERE email = ?;
+    `
+  }
+  else if(userType == 'doctor'){
+    updatePasswordQuery = `
+    UPDATE DoctorUser SET password = ? WHERE email = ?;
+    `
+  }
+  const updatePasswordRow = await connection.query(
+    updatePasswordQuery,
+    [hashedPassword, email]
+  );
+  
+  return updatePasswordRow;
+}
+
 module.exports = {
     selectUserEmail,
     selectUserNickname,
@@ -159,4 +181,5 @@ module.exports = {
     selectDoctorUserEmail,
     signinDoctorUser,
     findId,
+    updatePassword,
 }

@@ -36,4 +36,6 @@ module.exports = function(app){
     //----------------
     // 1. 전화번호로 아이디 찾기
     app.post('/app/users/find/id', user.findId);
+    // 2. 비밀번호 수정하기
+    app.patch('/app/users/find/password', user.updatePassword);
 };
