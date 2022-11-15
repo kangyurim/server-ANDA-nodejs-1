@@ -59,6 +59,20 @@ async function signinUser(connection, signinUserParams){
 
   return signinUserRow[0][0];
 }
+//[의사]유저 로그인
+async function signinDoctorUser(connection, signinUserParams){
+  const signinUserQuery =`
+    SELECT id, createdAt, updatedAt, nickname, name, email, recommendUserId
+    FROM DoctorUser
+    WHERE email = ? AND password = ? AND status='Activated';;
+  `
+  const signinUserRow = await connection.query(
+    signinUserQuery,
+    signinUserParams
+  )
+
+  return signinUserRow[0][0];
+}
 
 //Refresh Token 저장
 async function saveRefreshToken(connection, refreshTokenParams){
@@ -119,4 +133,5 @@ module.exports = {
     updateRefreshToken,
     insertDoctorUserInfo,
     selectDoctorUserEmail,
+    signinDoctorUser,
 }

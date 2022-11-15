@@ -56,7 +56,7 @@ exports.jwtCheck = async function (token){
     checkTokenResult.id = token.id;
     checkTokenResult.email = token.email;
     checkTokenResult.nickname = token.nickname;
-    console.log(checkTokenResult);
+
     
     return response(baseResponse.SUCCESS, checkTokenResult);
 }

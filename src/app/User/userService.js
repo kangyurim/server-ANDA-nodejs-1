@@ -143,6 +143,75 @@ exports.signinUser = async function (email, password)
 }
 
 /**
+ * 의사 로그인 API
+ * @param {*} email 
+ * @param {*} password 
+ * @returns 
+ */
+ exports.signinDoctorUser = async function (email, password)
+ {
+     try{
+          // 비밀번호 암호화
+          const hashedPassword = await crypto
+          .createHash("sha512")
+          .update(password)
+          .digest("hex");
+ 
+          const signinUserParams = [email, hashedPassword];
+ 
+          const connection = await pool.getConnection(async (conn) => conn);
+          const userSignInResult = await userDao.signinDoctorUser(connection, signinUserParams); 
+          
+          if(userSignInResult != null)
+          {
+              //토큰 생성 Service
+             let AccessToken = await jwt.sign(
+                 {
+                     id: userSignInResult.id,
+                     createAt: userSignInResult.createdAt,
+                     nickname: userSignInResult.nickname,
+                     email: userSignInResult.email,
+                     recommendUserId: userSignInResult.recommendUserId
+                 }, // 토큰의 내용(payload)
+                 secret_config.ACCESSjwtsecret, // 비밀키
+                 {
+                     expiresIn: "3h",
+                     subject: "userInfo",
+                 } // 유효 기간 3시간
+             );
+ 
+             let RefreshToken = await jwt.sign(
+                 {
+                     id: userSignInResult.id,
+                     createAt: userSignInResult.createdAt,
+                     nickName: userSignInResult.nickName,
+                     email: userSignInResult.email,
+                     recommendUserId: userSignInResult.recommendUserId
+                 }, // 토큰의 내용(payload)
+                 secret_config.REFRESHjwtsecret, // 비밀키
+                 {
+                     expiresIn: "2w",
+                     subject: "userInfo",
+                 } // 유효 기간 2주
+             );
+ 
+             const refreshTokenParams = [RefreshToken, email]
+             const refreshTokenSaveResult = await userDao.updateRefreshToken(connection, refreshTokenParams)
+ 
+             connection.release();
+             return response(baseResponse.SUCCESS, {'email': email, 
+                                                    'AccessJWT': AccessToken,
+                                                     'RefreshJWT': RefreshToken});
+         }
+         else return errResponse(baseResponse.SIGNIN_FAILED);
+     }
+     catch{
+         logger.error(`App - signIn Service error\n: ${err.message}`);
+         return errResponse(baseResponse.DB_ERROR);
+     }
+ }
+
+/**
  * 이메일 인증하기
  * @param {*} userEmail 
  * @returns 

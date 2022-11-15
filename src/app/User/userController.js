@@ -56,6 +56,28 @@ exports.signinUser = async function (req, res){
 }
 
 /**
+ * 의사 로그인 API
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ exports.signinDoctorUser = async function (req, res){
+    const {email, password} = req.body;
+
+    if(!email)
+        return res.send(response.response(baseResponse.SIGNIN_EMAIL_EMPTY))
+    if(!password)
+        return res.send(response.response(baseResponse.SIGNIN_PASSWORD_EMPTY))
+
+    const signinUserResponse = await userService.signinDoctorUser(
+        email,
+        password
+    ) 
+
+    return res.send(signinUserResponse);
+}
+
+/**
  * 이메일로 중복 유저 확인하기
  * @param {*} req 
  * @param {*} res 

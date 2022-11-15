@@ -28,4 +28,6 @@ module.exports = function(app){
     app.post('/app/users/signup/doctor', user.postDoctor);
     // 8. 의사 이메일 중복 확인
     app.get('/app/users/signup/doctor/verify/email', user.isDuplicateEmailUserDoctor);
+    // 9. 유저 로그인 API
+    app.post('/app/users/signin/doctor', user.signinDoctorUser);
 };
