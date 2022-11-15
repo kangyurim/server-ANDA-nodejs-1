@@ -56,6 +56,28 @@ exports.signinUser = async function (req, res){
 }
 
 /**
+ * 의사 로그인 API
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ exports.signinDoctorUser = async function (req, res){
+    const {email, password} = req.body;
+
+    if(!email)
+        return res.send(response.response(baseResponse.SIGNIN_EMAIL_EMPTY))
+    if(!password)
+        return res.send(response.response(baseResponse.SIGNIN_PASSWORD_EMPTY))
+
+    const signinUserResponse = await userService.signinDoctorUser(
+        email,
+        password
+    ) 
+
+    return res.send(signinUserResponse);
+}
+
+/**
  * 이메일로 중복 유저 확인하기
  * @param {*} req 
  * @param {*} res 
@@ -65,6 +87,20 @@ exports.isDuplicateEmailUser = async function(req, res){
     const {email} = req.body;
 
     const isDuplicateUserResponse = await userProvider.emailDuplicateCheck(email);
+
+    return res.send(isDuplicateUserResponse);    
+}
+
+/**
+ * 이메일로 중복 의사 유저 확인하기
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ exports.isDuplicateEmailUserDoctor = async function(req, res){
+    const {email} = req.body;
+
+    const isDuplicateUserResponse = await userProvider.doctorEmailDuplicateCheck(email);
 
     return res.send(isDuplicateUserResponse);    
 }
@@ -115,4 +151,35 @@ exports.verifyEmail = async function(req, res){
     const emailVerifyRes = await userService.verifyEmail(email, code);
 
     return res.send(emailVerifyRes);
+}
+
+/**
+ * 의사 회원가입
+ * @param {*} req
+ *  @param {*} res
+ */
+exports.postDoctor = async function(req, res){
+    const {nickname, email, password, phone, hospitalName, recommendUserId} = req.body;
+
+    if(!email)
+        return res.send(baseResponse.SIGNUP_EMAIL_EMPTY);
+    if(!password)
+        return res.send(baseResponse.SIGNUP_PASSWORD_EMPTY);
+    if(!nickname)
+        return res.send(baseResponse.SIGNUP_NICKNAME_EMPTY);
+    if(!phone)
+        return res.send(baseResponse.SIGNUP_PHONE_EMPTY);
+    if(!hospitalName)
+        return res.send(baseResponse.SIGNUP_HOSPITALNAME_EMPTY);
+
+    const signupDoctorResponse = await userService.creteDoctorUser(
+        nickname, 
+        email, 
+        password, 
+        phone, 
+        hospitalName, 
+        recommendUserId
+    )
+
+    return res.send(signupDoctorResponse);
 }

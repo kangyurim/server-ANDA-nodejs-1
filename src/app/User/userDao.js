@@ -6,8 +6,18 @@ async function selectUserEmail(connection, email) {
                     WHERE email = '${email}'
                   `;
     const [emailRows] = await connection.query(selectUserEmailQuery);
-    console.log(emailRows[0])
     return emailRows;
+}
+
+// [의사] 이메일로 회원 중복 조회
+async function selectDoctorUserEmail(connection, email) {
+  const selectUserEmailQuery = `
+                  SELECT COUNT(email) AS userCount
+                  FROM DoctorUser
+                  WHERE email = '${email}'
+                `;
+  const [emailRows] = await connection.query(selectUserEmailQuery);
+  return emailRows;
 }
 
 //닉네임으로 회원 중복 조회
@@ -40,6 +50,20 @@ async function signinUser(connection, signinUserParams){
   const signinUserQuery =`
     SELECT id, createdAt, updatedAt, nickname, name, email, recommendUserId
     FROM User
+    WHERE email = ? AND password = ? AND status='Activated';;
+  `
+  const signinUserRow = await connection.query(
+    signinUserQuery,
+    signinUserParams
+  )
+
+  return signinUserRow[0][0];
+}
+//[의사]유저 로그인
+async function signinDoctorUser(connection, signinUserParams){
+  const signinUserQuery =`
+    SELECT id, createdAt, updatedAt, nickname, name, email, recommendUserId
+    FROM DoctorUser
     WHERE email = ? AND password = ? AND status='Activated';;
   `
   const signinUserRow = await connection.query(
@@ -86,11 +110,28 @@ async function updateRefreshToken(connection, refreshTokenParams){
   return 1;
 }
 
+//의사 유저 생성
+async function insertDoctorUserInfo(connection, InsertDocotUserParams){
+  const doctorUserCreateQuery = `
+    insert into DoctorUser(nickname, email, password, phone, hospitalName, recommendUserId)
+    VALUES(?, ?, ?, ?, ?, ?);
+  `
+  const doctorUserCreateRow = await connection.query(
+    doctorUserCreateQuery,
+    InsertDocotUserParams
+  );
+
+  return doctorUserCreateRow;
+}
+
 module.exports = {
     selectUserEmail,
     selectUserNickname,
     insertUserInfo,
     signinUser,
     saveRefreshToken,
-    updateRefreshToken
+    updateRefreshToken,
+    insertDoctorUserInfo,
+    selectDoctorUserEmail,
+    signinDoctorUser,
 }

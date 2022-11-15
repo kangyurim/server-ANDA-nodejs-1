@@ -8,6 +8,10 @@ module.exports = {
     SIGNUP_NICKNAME_EMPTY : { "isSuccess": false, "code": 2002, "message":"별명을 입력해주세요."},
     SIGNUP_PASSWORD_EMPTY : { "isSuccess": false, "code": 2003, "message":"비밀번호를 입력해주세요."},
     SIGNUP_NICKNAME_EMPTY : { "isSuccess": false, "code": 2004, "message":"닉네임을 입력해주세요."},
+
+    SIGNUP_PHONE_EMPTY : { "isSuccess": false, "code": 2501, "message":"핸드폰 번호를 입력해주세요."},
+    SIGNUP_HOSPITALNAME_EMPTY : { "isSuccess": false, "code": 2502, "message":"병원 이름을 입력해주세요."},
+
     SIGNUP_EMAIL_DUPLICATED : { "isSuccess": false, "code": 2005, "message":"이미 가입된 회원입니다."},
     BODY_EMPTY : { "isSuccess": false, "code": 2006, "message":"요청된 body가 없습니다."},
 

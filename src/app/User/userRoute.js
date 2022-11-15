@@ -22,4 +22,12 @@ module.exports = function(app){
 
     // 6. 유저 이메일 인증
     app.post('/app/users/signup/verify/email/code', user.verifyEmail);
+
+    //--------------
+    // 7 . 의사 회원가입
+    app.post('/app/users/signup/doctor', user.postDoctor);
+    // 8. 의사 이메일 중복 확인
+    app.get('/app/users/signup/doctor/verify/email', user.isDuplicateEmailUserDoctor);
+    // 9. 유저 로그인 API
+    app.post('/app/users/signin/doctor', user.signinDoctorUser);
 };
