@@ -9,7 +9,9 @@ exports.retrieveBannerList = async function(req, res){
     try{
         const connection = await pool.getConnection(async (conn) => conn);
         const bannerList = await bannerDao.getBannerList(connection);
-        return response(baseResponse.SUCCESS, bannerList);
+        var asResponse = new Object();
+        asResponse.banners = bannerList;
+        return response(baseResponse.SUCCESS, asResponse);
     }catch (err) {
         return errResponse(baseResponse.DB_ERROR);
     }
