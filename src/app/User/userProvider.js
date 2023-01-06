@@ -19,10 +19,20 @@ exports.emailDuplicateCheck = async function (email) {
   let resultMsg = '';
   connection.release();
 
-  if(emailCheckResult[0].userCount==0) resultMsg = '사용 가능한 이메일입니다.';
-  else resultMsg = '이미 가입된 이메일입니다.';
+  resultTemp = new Object;
+  if(emailCheckResult[0].userCount==0) {
+    resultTemp.isUsable = true;
+    resultTemp.resultMsg = '사용 가능한 이메일입니다.';
+  }
+  else {
+    resultTemp.isUsable = false;
+    resultTemp.resultMsg = '이미 가입된 이메일입니다.';
+  }
 
-  return response(baseResponse.SUCCESS, resultMsg);
+  
+  
+
+  return response(baseResponse.SUCCESS, resultTemp);
 }
 
 exports.doctorEmailDuplicateCheck = async function (email) {

@@ -21,7 +21,7 @@ exports.postUsers = async function (req, res) {
         return res.send(response(baseResponse.SIGNUP_PASSWORD_EMPTY));
     if(!nickname)
         return res.send(response(baseResponse.SIGNUP_NICKNAME_EMPTY));
-
+    if(!recommendUserId) recommendUserId = 'null'
 
     const signupUserResponse = await userService.creteUser(
         email,
@@ -85,7 +85,7 @@ exports.signinUser = async function (req, res){
  */
 exports.isDuplicateEmailUser = async function(req, res){
     email = req.query.email; 
-    if(!email) return res.send(response.response(baseResponse.SIGNIN_EMAIL_EMPTY));
+    if(!email) return res.send(baseResponse(baseResponse.SIGNIN_EMAIL_EMPTY));
 
     const isDuplicateUserResponse = await userProvider.emailDuplicateCheck(email);
 
@@ -116,6 +116,7 @@ exports.isDuplicateEmailUser = async function(req, res){
 exports.isDuplicateNicknameUser = async function(req, res){
     nickname = req.query.nickname;
     
+
     const isDuplicateUserResponse = await userProvider.nicknameDuplicateCheck(nickname);
 
     return res.send({isDuplicateUserResponse})
