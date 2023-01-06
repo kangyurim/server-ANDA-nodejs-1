@@ -13,6 +13,7 @@ module.exports = {
     SIGNUP_HOSPITALNAME_EMPTY : { "isSuccess": false, "code": 2502, "message":"병원 이름을 입력해주세요."},
 
     SIGNUP_EMAIL_DUPLICATED : { "isSuccess": false, "code": 2005, "message":"이미 가입된 회원입니다."},
+    SIGNUP_CODE_EMPTY : { "isSuccess": false, "code": 2006, "message":"인증코드를 입력해주세요."},
     BODY_EMPTY : { "isSuccess": false, "code": 2006, "message":"요청된 body가 없습니다."},
 
     // User -> 로그인 관련 Error 코드

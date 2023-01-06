@@ -1,7 +1,7 @@
 const userService = require("./userService");
 const userProvider = require("./userProvider");
 
-const {response} = require("../../../config/response");
+const {response, errResponse} = require("../../../config/response");
 const baseResponse = require("../../../config/baseResponseStatus");
 const baseResponseStatus = require("../../../config/baseResponseStatus");
 
@@ -21,7 +21,7 @@ exports.postUsers = async function (req, res) {
         return res.send(response(baseResponse.SIGNUP_PASSWORD_EMPTY));
     if(!nickname)
         return res.send(response(baseResponse.SIGNUP_NICKNAME_EMPTY));
-
+    if(!recommendUserId) recommendUserId = 'null'
 
     const signupUserResponse = await userService.creteUser(
         email,
@@ -84,7 +84,8 @@ exports.signinUser = async function (req, res){
  * @returns 
  */
 exports.isDuplicateEmailUser = async function(req, res){
-    const {email} = req.body;
+    email = req.query.email; 
+    if(!email) return res.send(errResponse(baseResponse.SIGNIN_EMAIL_EMPTY));
 
     const isDuplicateUserResponse = await userProvider.emailDuplicateCheck(email);
 
@@ -98,7 +99,8 @@ exports.isDuplicateEmailUser = async function(req, res){
  * @returns 
  */
  exports.isDuplicateEmailUserDoctor = async function(req, res){
-    const {email} = req.body;
+    email = req.query.email; 
+    if(!email) return res.send(errResponse(baseResponse.SIGNIN_EMAIL_EMPTY));
 
     const isDuplicateUserResponse = await userProvider.doctorEmailDuplicateCheck(email);
 
@@ -112,11 +114,12 @@ exports.isDuplicateEmailUser = async function(req, res){
  * @returns 
  */
 exports.isDuplicateNicknameUser = async function(req, res){
-    const {nickname} = req.body;
-    
+    nickname = req.query.nickname;
+    if(!nickname) return res.send(errResponse(baseResponse.SIGNIN_NICKNAME_EMPTY));
+
     const isDuplicateUserResponse = await userProvider.nicknameDuplicateCheck(nickname);
 
-    return res.send({isDuplicateUserResponse})
+    return res.send(isDuplicateUserResponse)
 }
 
 
@@ -147,6 +150,7 @@ exports.verifyEmail = async function(req, res){
     const {email, code} = req.body;
 
     if(!email) return res.send(baseResponse.SIGNUP_EMAIL_EMPTY);
+    if(!code) return res.send(baseResponse.SIGNUP_CODE_EMPTY);
 
     const emailVerifyRes = await userService.verifyEmail(email, code);
 
