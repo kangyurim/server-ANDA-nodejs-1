@@ -114,7 +114,7 @@ exports.isDuplicateEmailUser = async function(req, res){
  * @returns 
  */
 exports.isDuplicateNicknameUser = async function(req, res){
-    const {nickname} = req.body;
+    nickname = req.query.nickname;
     
     const isDuplicateUserResponse = await userProvider.nicknameDuplicateCheck(nickname);
 
