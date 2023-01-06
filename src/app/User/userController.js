@@ -100,7 +100,7 @@ exports.isDuplicateEmailUser = async function(req, res){
  */
  exports.isDuplicateEmailUserDoctor = async function(req, res){
     email = req.query.email; 
-    if(!email) return res.send(response.response(baseResponse.SIGNIN_EMAIL_EMPTY));
+    if(!email) return res.send(errResponse(baseResponse.SIGNIN_EMAIL_EMPTY));
 
     const isDuplicateUserResponse = await userProvider.doctorEmailDuplicateCheck(email);
 
@@ -175,7 +175,7 @@ exports.postDoctor = async function(req, res){
         return res.send(baseResponse.SIGNUP_PHONE_EMPTY);
     if(!hospitalName)
         return res.send(baseResponse.SIGNUP_HOSPITALNAME_EMPTY);
-    
+
     const signupDoctorResponse = await userService.creteDoctorUser(
         nickname, 
         email, 

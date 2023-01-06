@@ -39,11 +39,19 @@ exports.doctorEmailDuplicateCheck = async function (email) {
   const connection = await pool.getConnection(async (conn) => conn);
   const emailCheckResult = await userDao.selectDoctorUserEmail(connection, email);
 
-  if(emailCheckResult[0].userCount==0) resultMsg = '사용 가능한 이메일입니다.';
-  else resultMsg = '이미 가입된 이메일입니다.';
+  result = new Object;
+
+  if(emailCheckResult[0].userCount==0) {
+    result.isUsable = true;
+    result.resultMsg = '사용 가능한 이메일입니다.';
+  }
+  else{
+    result.isUsable = false;
+    result.resultMsg = '이미 가입된 이메일입니다.';
+  } 
   connection.release();
 
-  return response(baseResponse.SUCCESS, resultMsg);
+  return response(baseResponse.SUCCESS, result);
 }
 
 exports.nicknameDuplicateCheck = async function (nickname){
