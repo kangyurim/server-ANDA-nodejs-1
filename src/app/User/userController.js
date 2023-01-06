@@ -150,6 +150,7 @@ exports.verifyEmail = async function(req, res){
     const {email, code} = req.body;
 
     if(!email) return res.send(baseResponse.SIGNUP_EMAIL_EMPTY);
+    if(!code) return res.send(baseResponse.SIGNUP_CODE_EMPTY);
 
     const emailVerifyRes = await userService.verifyEmail(email, code);
 
@@ -174,7 +175,7 @@ exports.postDoctor = async function(req, res){
         return res.send(baseResponse.SIGNUP_PHONE_EMPTY);
     if(!hospitalName)
         return res.send(baseResponse.SIGNUP_HOSPITALNAME_EMPTY);
-
+    
     const signupDoctorResponse = await userService.creteDoctorUser(
         nickname, 
         email, 
