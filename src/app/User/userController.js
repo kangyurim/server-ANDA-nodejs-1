@@ -99,7 +99,8 @@ exports.isDuplicateEmailUser = async function(req, res){
  * @returns 
  */
  exports.isDuplicateEmailUserDoctor = async function(req, res){
-    const {email} = req.body;
+    email = req.query.email; 
+    if(!email) return res.send(response.response(baseResponse.SIGNIN_EMAIL_EMPTY));
 
     const isDuplicateUserResponse = await userProvider.doctorEmailDuplicateCheck(email);
 
