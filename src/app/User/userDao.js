@@ -3,9 +3,9 @@ async function selectUserEmail(connection, email) {
     const selectUserEmailQuery = `
                     SELECT COUNT(email) AS userCount
                     FROM User
-                    WHERE email = '${email}'
+                    WHERE email = ?
                   `;
-    const [emailRows] = await connection.query(selectUserEmailQuery);
+    const [emailRows] = await connection.query(selectUserEmailQuery, email);
     return emailRows;
 }
 
@@ -14,9 +14,9 @@ async function selectDoctorUserEmail(connection, email) {
   const selectUserEmailQuery = `
                   SELECT COUNT(email) AS userCount
                   FROM DoctorUser
-                  WHERE email = '${email}'
+                  WHERE email = ?
                 `;
-  const [emailRows] = await connection.query(selectUserEmailQuery);
+  const [emailRows] = await connection.query(selectUserEmailQuery, email);
   return emailRows;
 }
 
@@ -131,7 +131,7 @@ async function findId(connection, phone, userType){
     findIdQuery = `
       SELECT email
       FROM User
-      WHERE phone = '${phone}';
+      WHERE phone = ?;
     `
   }
 
@@ -139,11 +139,11 @@ async function findId(connection, phone, userType){
     findIdQuery = `
       SELECT email
       FROM DoctorUser
-      WHERE phone = '${phone}';
+      WHERE phone = ?;
     `
   }
 
-  const [email] = await connection.query(findIdQuery);
+  const [email] = await connection.query(findIdQuery, phone);
 
   return email;
 }
