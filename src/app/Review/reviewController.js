@@ -60,5 +60,10 @@ exports.postReview = async function(req, res){
         const reviewListResult = await reviewProvider.retrieveReviewLists(ophthalmologyId);
     
         return res.send(response(baseResponse.SUCCESS, reviewListResult));
-    
+ }
+
+ exports.getLasikTop9 = async function(req, res){
+    const lasikTop9Review = await reviewProvider.retrieveLasikTop9();
+
+    return res.send(response(baseResponse.SUCCESS, lasikTop9Review));
  }
