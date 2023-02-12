@@ -245,7 +245,7 @@ async function insertReviewImg(connect, insertReviewImgParams) {
 async function retrieveLasikTop9(connect){
     const retrieveLasikTop9Query = `
     SELECT * FROM LasicReview
-    ORDER BY score ASC;
+    ORDER BY score DESC;
     `
 
     const retrieveLasikTop9Result = await connect.query(retrieveLasikTop9Query);
