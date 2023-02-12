@@ -242,6 +242,17 @@ async function insertReviewImg(connect, insertReviewImgParams) {
     return insertReviewImgRow;
 }
 
+async function retrieveLasikTop9(connect){
+    const retrieveLasikTop9Query = `
+    SELECT * FROM LasicReview
+    ORDER BY score ASC;
+    `
+
+    const retrieveLasikTop9Result = await connect.query(retrieveLasikTop9Query);
+
+    return retrieveLasikTop9Result[0];
+}
+
 module.exports = {
     selectReviews,
     selectReviewStatus,
@@ -250,5 +261,6 @@ module.exports = {
     lasicReview,
     lasecReview,
     smileLasicReview,
-    lensInsertReview
+    lensInsertReview,
+    retrieveLasikTop9
 }
