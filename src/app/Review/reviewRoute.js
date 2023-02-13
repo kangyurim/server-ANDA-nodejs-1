@@ -13,6 +13,6 @@ module.exports = function(app){
     // app.get('app/hospital/hosinfo', review.hospitalInfo);
 
     //4. 라식 리뷰 별점 Top 9 가져오기
-    app.get('/app/review/lasik/top9', review.getLasikTop9);
+    app.post('/app/review/lasik/top9', review.getLasikTop9);
 
 }

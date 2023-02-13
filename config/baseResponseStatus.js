@@ -40,6 +40,7 @@ module.exports = {
     REVIEW_OPHTHALMOLOHYID_LENGTH : { "isSuccess": false, "code": 4004, "message":"병원id는 0보다 큰 값으로 입력해주세요." },
     REVIEW_TYPE_EMPTY : { "isSuccess": false, "code": 4005, "message":"리뷰 타입을 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert." },
     REVIEW_TYPE_INVALIED : { "isSuccess": false, "code": 4006, "message":"리뷰 타입을 정확히 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert." },
+    REVIEW_LOCATION_EMPTY : { "isSuccess": false, "code": 4007, "message":"리뷰를 확인할 안과의 위치를 지정해주세요." },
 
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},

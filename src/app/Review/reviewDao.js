@@ -242,15 +242,49 @@ async function insertReviewImg(connect, insertReviewImgParams) {
     return insertReviewImgRow;
 }
 
-async function retrieveLasikTop9(connect){
-    const retrieveLasikTop9Query = `
-    SELECT * FROM LasicReview
-    ORDER BY score DESC;
-    `
+async function retrieveLasikTop9(connect, location){
+    let retrieveLasikTop9Query;
+
+    if(location.length == 0){
+        retrieveLasikTop9Query = `
+            SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+            FROM LasicReview L
+            INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+            ORDER BY L.score DESC;
+        `
+    }
+    else{
+        const whereClause = dynamicLocationWhereClause(location);
+        retrieveLasikTop9Query = `
+            SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+            FROM LasicReview L
+            INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+            ${whereClause}
+            ORDER BY L.score DESC;
+        `
+    }
+    
 
     const retrieveLasikTop9Result = await connect.query(retrieveLasikTop9Query);
 
     return retrieveLasikTop9Result[0];
+}
+
+function dynamicLocationWhereClause(location){
+    let whereClause = '';
+    if(location.size != 0){
+        whereClause += 'WHERE ';
+        for(let i = 0; i < location.length; i++){
+            if(i == 0){
+                whereClause += 'townName = \'' + location[i] + '\'';
+            }
+            else{
+                whereClause += ' OR townName = \'' + location[i] + '\'';
+            }
+        }
+    }
+
+    return whereClause;
 }
 
 module.exports = {
