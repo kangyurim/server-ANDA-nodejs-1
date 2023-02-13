@@ -112,6 +112,8 @@ config/emailSecret.js
 
 .DS_Store
 
+.env
+.env.test
 # Large Files
 OphthalmologyDATA.xlsx
 OphthalmologyDATA.csv

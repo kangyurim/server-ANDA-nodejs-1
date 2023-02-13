@@ -62,8 +62,17 @@ exports.postReview = async function(req, res){
         return res.send(response(baseResponse.SUCCESS, reviewListResult));
  }
 
+ /**
+  * 라식 top 9 병원 가져오기
+  * @param {*} req 
+  * @param {*} res 
+  * @returns 
+  */
  exports.getLasikTop9 = async function(req, res){
-    const lasikTop9Review = await reviewProvider.retrieveLasikTop9();
+    const location = req.body.location;
+
+    if(!location) return res.send(response(baseResponse.REVIEW_LOCATION_EMPTY));
+    const lasikTop9Review = await reviewProvider.retrieveLasikTop9(location);
 
     return res.send(response(baseResponse.SUCCESS, lasikTop9Review));
  }

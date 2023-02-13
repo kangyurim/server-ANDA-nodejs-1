@@ -19,9 +19,9 @@ exports.checkReviewStatus = async function(reivewId) {
 }
 
 //라식 병원 탑 9 반환
-exports.retrieveLasikTop9 = async function(){
+exports.retrieveLasikTop9 = async function(location){
     const connection = await pool.getConnection(async (conn) => conn);
-    const retrieveLasikTop9Result = await reviewDao.retrieveLasikTop9(connection);
+    const retrieveLasikTop9Result = await reviewDao.retrieveLasikTop9(connection, location);
     connection.release();
 
     return retrieveLasikTop9Result;
