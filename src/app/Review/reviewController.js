@@ -12,24 +12,29 @@ const baseResponse = require("../../../config/baseResponseStatus");
  */
 exports.postReview = async function(req, res){
     const token = req.verifiedToken;
-    if(!token)
-        return res.send(response.response(baseResponse.TOKEN_EMPTY))
     const {hospitalId, reviewType, score, content} = req.body;
+    
 
-    if(!score)
+    if(!score) 
         return res.send(response(baseResponse.REVIEW_SCORE_EMPTY));
+    const scoreToJson = JSON.parse(score);
+
+    if(!token)
+        return res.send(response.response(baseResponse.TOKEN_EMPTY));
+    if(typeof(scoreToJson) != 'object') 
+        return res.send(response(baseResponse.REVIEW_SCORE_TYPE_ERROR));
     if(!reviewType)
         return res.send(response(baseResponse.REVIEW_TYPE_EMPTY));
-    if(content.length < 10)
+    if(content.length < 20)
         return res.send(response(baseResponse.REVIEW_CONTENT_LENGTH));
-
     if(reviewType != 'normal' && reviewType != 'lasic' && reviewType != 'lasec' && reviewType != 'smile-lasic' && reviewType != 'lens-insert' && reviewType != 'cataract') return res.send(response(baseResponse.REVIEW_TYPE_INVALIED));
 
+    
     const postReviewResponse = await reviewService.createReview(
         req,
         hospitalId,
         reviewType,
-        score,
+        scoreToJson,
         content,
         token
     );
