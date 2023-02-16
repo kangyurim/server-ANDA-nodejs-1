@@ -1,23 +1,3 @@
-
-/*// 안과 리뷰 조회
-async function selectOphthalmologyReviews(connection, ophthalmologyId) {
-    const selectOphthalmologyReviewsQuery = `
-        SELECT r.reviewId as reviewId,
-            rm.picURL as reviewPicURL
-        FROM Review as r
-            join ReviewMedia as rm on rm.reviewId = r.reviewId and rm.status = 'Activated'
-            join User as u on u.userId = r.userId
-            join Ophthalmology as o on o.ophthalmologyId = r.ophthalmologyId
-        WHERE r.status = 'Activated' and r.ophthalmologyId = ?
-        group by r.reviewId
-        HAVING min(ri.reviewImgUrlId)
-        order by r.reviewId;  
-    `;
-    const [ophthalmologyReviewsRows] = await connection.query(selectOphthalmologyReviewsQuery, ophthalmologyId);
-
-    return ophthalmologyReviewsRows;
-}*/
-
 // 리뷰 조회
 async function selectReviews(connection, opththalmologyId) {
     const selectReviewsQuery = `
@@ -54,10 +34,10 @@ async function selectReviewStatus(connection, reviewId) {
 async function diagnosisReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
-        insert into diagnosisReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, surgeryScore)
+        insert into diagnosisReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);    
     `;
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.surgeryScore]);
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
     if(insertReviewRow[0].affectedRows == 1)
     {
@@ -90,10 +70,10 @@ async function diagnosisReview(connect, insertReviewParams) {
 async function lasicReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
-        insert into LasicReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, surgeryScore)
+        insert into LasicReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);    
     `;
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.surgeryScore]);
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
     if(insertReviewRow[0].affectedRows == 1)
     {
@@ -126,10 +106,10 @@ async function lasicReview(connect, insertReviewParams) {
 async function lasecReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
-        insert into LasecReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, surgeryScore)
+        insert into LasecReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     `;
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.surgeryScore]);
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
     if(insertReviewRow[0].affectedRows == 1)
     {
@@ -162,10 +142,10 @@ async function lasecReview(connect, insertReviewParams) {
 async function smileLasicReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
-        insert into SmileLasicReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, surgeryScore)
+        insert into SmileLasicReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     `;
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.surgeryScore]);
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
     if(insertReviewRow[0].affectedRows == 1)
     {
@@ -198,10 +178,10 @@ async function smileLasicReview(connect, insertReviewParams) {
 async function lensInsertReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
-        insert into LensInsertReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, surgeryScore)
+        insert into LensInsertReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     `;
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.surgeryScore]);
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
     if(insertReviewRow[0].affectedRows == 1)
     {
@@ -234,11 +214,11 @@ async function lensInsertReview(connect, insertReviewParams) {
 async function cataractReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
-        INSERT INTO CataractReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, surgeryScore)
+        INSERT INTO CataractReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     `;
 
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.surgeryScore]);
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
     if(insertReviewRow[0].affectedRows == 1)
     {

@@ -37,8 +37,8 @@ exports.createReview = async function(req, hospitalId, reviewType, scoreToJson, 
         if(scoreToJson.infoScore == undefined) categoryScore.infoScore = 1;
         else categoryScore.infoScore = scoreToJson.infoScore;
 
-        if(scoreToJson.surgeryScore == undefined) categoryScore.surgeryScore = 1;
-        else categoryScore.surgeryScore = scoreToJson.surgeryScore;
+        if(scoreToJson.recommendScore == undefined) categoryScore.recommendScore = 1;
+        else categoryScore.recommendScore = scoreToJson.recommendScore;
 
         insertReviewParams.hospitalId = hospitalId;
         insertReviewParams.content = content;
@@ -47,7 +47,7 @@ exports.createReview = async function(req, hospitalId, reviewType, scoreToJson, 
         insertReviewParams.waitScore = categoryScore.waitScore;
         insertReviewParams.priceScore = categoryScore.priceScore;
         insertReviewParams.infoScore = categoryScore.infoScore;
-        insertReviewParams.surgeryScore = categoryScore.surgeryScore;
+        insertReviewParams.recommendScore = categoryScore.recommendScore;
 
         insertReviewParams.reviewType = reviewType;
         insertReviewParams.writerId = token.id;
