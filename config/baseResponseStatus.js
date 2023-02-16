@@ -39,7 +39,7 @@ module.exports = {
     REVIEW_OPHTHALMOLOHYID_EMPTY : { "isSuccess": false, "code": 4003, "message":"병원id를 입력해주세요." },
     REVIEW_OPHTHALMOLOHYID_LENGTH : { "isSuccess": false, "code": 4004, "message":"병원id는 0보다 큰 값으로 입력해주세요." },
     REVIEW_TYPE_EMPTY : { "isSuccess": false, "code": 4005, "message":"리뷰 타입을 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert." },
-    REVIEW_TYPE_INVALIED : { "isSuccess": false, "code": 4006, "message":"리뷰 타입을 정확히 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert." },
+    REVIEW_TYPE_INVALIED : { "isSuccess": false, "code": 4006, "message":"리뷰 타입을 정확히 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert, cataract)" },
     REVIEW_LOCATION_EMPTY : { "isSuccess": false, "code": 4007, "message":"리뷰를 확인할 안과의 위치를 지정해주세요." },
     REVIEW_LOCATION_INVALIED : { "isSuccess": false, "code": 4008, "message":"location 형식은 Array입니다. 예시: ['마포구', '송파구']" },
     REVIEW_CATEGORY_INVALIED: {"isSuccress": false, "code": 4009, "message": "진료 타입을 정확히 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},

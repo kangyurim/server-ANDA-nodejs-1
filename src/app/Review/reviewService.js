@@ -32,10 +32,11 @@ exports.createReview = async function(req, hospitalId, reviewType, score,content
         const connection = await pool.getConnection(async (conn) => conn);
         let reviewResult;
         if(reviewType == 'normal') reviewResult = await reviewDao.insertReview(connection, insertReviewParams);
-        if(reviewType == 'lasic') reviewResult = await reviewDao.lasicReview(connection, insertReviewParams);
-        if(reviewType == 'lasec') reviewResult = await reviewDao.lasecReview(connection, insertReviewParams);
-        if(reviewType == 'smile-lasic') reviewResult = await reviewDao.smileLasicReview(connection, insertReviewParams);
-        if(reviewType == 'lens-insert') reviewResult = await reviewDao.lensInsertReview(connection, insertReviewParams);
+        else if(reviewType == 'lasic') reviewResult = await reviewDao.lasicReview(connection, insertReviewParams);
+        else if(reviewType == 'lasec') reviewResult = await reviewDao.lasecReview(connection, insertReviewParams);
+        else if(reviewType == 'smile-lasic') reviewResult = await reviewDao.smileLasicReview(connection, insertReviewParams);
+        else if(reviewType == 'lens-insert') reviewResult = await reviewDao.lensInsertReview(connection, insertReviewParams);
+        else if(reviewType == 'cataract') reviewResult = await reviewDao.cataractReview(connection, insertReviewParams);
 
 
         connection.release();

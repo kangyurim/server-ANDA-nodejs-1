@@ -165,7 +165,7 @@ async function smileLasicReview(connect, insertReviewParams) {
         insert into SmileLasicReview(ophthalmologyId, userId, score, reviewText)
         VALUES (?, ?, ?, ?);
     `;
-    const insertReviewRow = await connect.query(insertReviewQuery, insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.score, insertReviewParams.content);
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.score, insertReviewParams.content]);
 
     if(insertReviewRow[0].affectedRows == 1)
     {
@@ -201,7 +201,7 @@ async function lensInsertReview(connect, insertReviewParams) {
         insert into LensInsertReview(ophthalmologyId, userId, score, reviewText)
         VALUES (?, ?, ?, ?);
     `;
-    const insertReviewRow = await connect.query(insertReviewQuery, insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.score, insertReviewParams.content);
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.score, insertReviewParams.content]);
 
     if(insertReviewRow[0].affectedRows == 1)
     {
@@ -212,6 +212,43 @@ async function lensInsertReview(connect, insertReviewParams) {
         {
             for(var i in insertReviewParams.pictureUrls)
             {   const insertMediaQuery = `INSERT INTO LensInsertReviewMedia(reviewId, picURL) VALUES(?, ?)`
+                const insertMediaQueryRes = await connect.query(insertMediaQuery, [insertId, insertReviewParams.pictureUrls[i]])
+                if(insertMediaQueryRes[0].affectedRows != 1) 
+                {
+                    result.mediaInptRes = 'FAIL';
+                    break;
+                }
+            }
+            result.mediaInptRes = 'SUCCESS';
+        }
+        else if(insertReviewParams.pictureUrls.length == 0)
+        {
+            result.mediaInptRes = 'NULL BUT SUCCESS';
+        }
+    }
+    else  result.titleInptRes = 'FAIL';
+
+    return result
+}
+
+async function cataractReview(connect, insertReviewParams) {
+    let result = new Object();
+    const insertReviewQuery = `
+        insert into CataractReview(ophthalmologyId, userId, score, reviewText)
+        VALUES (?, ?, ?, ?);
+    `;
+
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.score, insertReviewParams.content]);
+
+    if(insertReviewRow[0].affectedRows == 1)
+    {
+        result.titleInptRes = 'SUCCESS';
+        const insertId = insertReviewRow[0].insertId;
+       
+        if(insertReviewParams.pictureUrls.length != 0)
+        {
+            for(var i in insertReviewParams.pictureUrls)
+            {   const insertMediaQuery = `INSERT INTO CataractReviewMedia(reviewId, picURL) VALUES(?, ?)`
                 const insertMediaQueryRes = await connect.query(insertMediaQuery, [insertId, insertReviewParams.pictureUrls[i]])
                 if(insertMediaQueryRes[0].affectedRows != 1) 
                 {
@@ -415,7 +452,8 @@ module.exports = {
     insertReviewImg,
     lasicReview,
     lasecReview,
+    cataractReview,
     smileLasicReview,
     lensInsertReview,
-    retrieveTop9
+    retrieveTop9,
 }

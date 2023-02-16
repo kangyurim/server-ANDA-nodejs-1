@@ -23,7 +23,7 @@ exports.postReview = async function(req, res){
     if(content.length < 10)
         return res.send(response(baseResponse.REVIEW_CONTENT_LENGTH));
 
-    if(reviewType != 'normal' && reviewType != 'lasic' && reviewType != 'lasec' && reviewType != 'smile-lasic' && reviewType != 'lens-insert') return res.send(response(baseResponse.REVIEW_TYPE_INVALIED));
+    if(reviewType != 'normal' && reviewType != 'lasic' && reviewType != 'lasec' && reviewType != 'smile-lasic' && reviewType != 'lens-insert' && reviewType != 'cataract') return res.send(response(baseResponse.REVIEW_TYPE_INVALIED));
 
     const postReviewResponse = await reviewService.createReview(
         req,
