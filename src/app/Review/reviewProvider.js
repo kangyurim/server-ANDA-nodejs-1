@@ -1,12 +1,25 @@
 const { pool } = require("../../../config/database");
+const { errResponse } = require("../../../config/response");
+const baseResponse = require("../../../config/baseResponseStatus");
 const reviewDao = require("./reviewDao");
 
 //리뷰 조회
-exports.retrieveReviewLists = async function(ophthalmologyId) {
+exports.retrieveReviewListSimple = async function(ophthalmologyId) {
     const connection = await pool.getConnection(async (conn) => conn);
-    const reviewListResult = await reviewDao.selectReviews(connection, ophthalmologyId);
-    connection.release();
-    return reviewListResult;
+    try{
+        await connection.beginTransaction();
+        const reviewListResult = await reviewDao.retrieveReviewListSimple(connection, ophthalmologyId);
+        await connection.commit();
+        return reviewListResult;
+    } catch(err){
+        await connection.rollback();
+        return errResponse(baseResponse.DB_ERROR);
+    } finally{
+        connection.release();
+    }
+    
+    
+    
 }
 
 //리뷰 상태 확인

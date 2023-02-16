@@ -43,11 +43,11 @@ exports.postReview = async function(req, res){
 }
 
 /**
- * 2. 리뷰조회 API
+ * 2. 리뷰 간단 조회 API
  * @param {json} req 
  * @param {json} res 
  */
- exports.getReview = async function(req, res){
+ exports.getReviewSimple = async function(req, res){
     /*
         Body: ophthalmologyId
     */
@@ -62,7 +62,7 @@ exports.postReview = async function(req, res){
             return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_LENGTH));
         }
     
-        const reviewListResult = await reviewProvider.retrieveReviewLists(ophthalmologyId);
+        const reviewListResult = await reviewProvider.retrieveReviewListSimple(ophthalmologyId);
     
         return res.send(response(baseResponse.SUCCESS, reviewListResult));
  }
