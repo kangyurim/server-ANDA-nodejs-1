@@ -1,22 +1,81 @@
 // 리뷰 조회
-async function selectReviews(connection, opththalmologyId) {
-    const selectReviewsQuery = `
-        SELECT r.Id as reviewId,
-            u.Id as userId,
-            u.nickname as nickname,
-            r.reviewText as reviewText,
-            r.score as score,
-            r.reviewLikeCount as reviewLikeCount,
-            m.picURL as media
-        FROM Review as r
-            left outer join(ReviewMedia as m, User as u) on m.reviewId = r.id AND u.id = r.userId
-        WHERE r.status = 'Activated' and r.ophthalmologyId = ?
-            group by r.Id;
+async function retrieveReviewListSimple(connection, opththalmologyId) {
+    let fianlSimpleReviewList = new Object();
+    
+    const lasicSimpleReview = `
+        SELECT O.id AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN LasicReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        WHERE Reivew.status = 'Activated' AND O.id = ?
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
     `;
+    const lasicReviewRow = await connection.query(lasicSimpleReview, opththalmologyId);
+    fianlSimpleReviewList.lasicSimpleReview = lasicReviewRow[0];
 
-    const [reviewRows] = await connection.query(selectReviewsQuery, opththalmologyId);
+    const lasecSimpleReview = `
+        SELECT O.id AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN LasecReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        WHERE Reivew.status = 'Activated' AND O.id = ?
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const lasecReviewRow = await connection.query(lasecSimpleReview, opththalmologyId);
+    fianlSimpleReviewList.lasecSimpleReview = lasecReviewRow[0];
 
-    return reviewRows;
+    const lensInsertSimpleReview = `
+        SELECT O.id AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN LensInsertReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        WHERE Reivew.status = 'Activated' AND O.id = ?
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const lensInsertReviewRow = await connection.query(lensInsertSimpleReview, opththalmologyId);
+    fianlSimpleReviewList.lensInsertSimpleReview = lensInsertReviewRow[0];
+
+    const smileLasicReview = `
+        SELECT O.id AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN LensInsertReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        WHERE Reivew.status = 'Activated' AND O.id = ?
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const smileLasicReviewRow = await connection.query(smileLasicReview, opththalmologyId);
+    fianlSimpleReviewList.smileLasicReview = smileLasicReviewRow[0];
+
+    const cataractReview = `
+        SELECT O.id AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN CataractReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        WHERE Reivew.status = 'Activated' AND O.id = ?
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const cataractReviewRow = await connection.query(cataractReview, opththalmologyId);
+    fianlSimpleReviewList.cataractReview = cataractReviewRow[0];
+
+    const diagnosisReview = `
+        SELECT O.id AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN diagnosisReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        WHERE Reivew.status = 'Activated' AND O.id = 10000
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const diagnosisReviewRow = await connection.query(diagnosisReview, opththalmologyId);
+    fianlSimpleReviewList.diagnosisReview = diagnosisReviewRow[0];
+
+
+    return fianlSimpleReviewList;
 }
 
 async function selectReviewStatus(connection, reviewId) {
@@ -426,7 +485,7 @@ function dynamicLocationWhereClause(location){
 }
 
 module.exports = {
-    selectReviews,
+    retrieveReviewListSimple,
     selectReviewStatus,
     diagnosisReview,
     insertReviewImg,
