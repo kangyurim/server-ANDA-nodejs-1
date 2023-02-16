@@ -35,15 +35,16 @@ module.exports = {
     // Review -> 리뷰 관련 Error 코드
     //REVIEW_POSTIMGURLS_EMPTY
     REVIEW_CONTENT_LENGTH : { "isSuccess": false, "code": 4001, "message":"최소 10자 이상 작성해주세요." },
-    REVIEW_SCORE_EMPTY : { "isSuccess": false, "code": 4002, "message":"점수를 등록해주세요." },
+    REVIEW_SCORE_EMPTY : { "isSuccess": false, "code": 4002, "message":"점수 키가 존재하지 않습니다." },
     REVIEW_OPHTHALMOLOHYID_EMPTY : { "isSuccess": false, "code": 4003, "message":"병원id를 입력해주세요." },
     REVIEW_OPHTHALMOLOHYID_LENGTH : { "isSuccess": false, "code": 4004, "message":"병원id는 0보다 큰 값으로 입력해주세요." },
     REVIEW_TYPE_EMPTY : { "isSuccess": false, "code": 4005, "message":"리뷰 타입을 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert." },
-    REVIEW_TYPE_INVALIED : { "isSuccess": false, "code": 4006, "message":"리뷰 타입을 정확히 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert." },
+    REVIEW_TYPE_INVALIED : { "isSuccess": false, "code": 4006, "message":"리뷰 타입을 정확히 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert, cataract)" },
     REVIEW_LOCATION_EMPTY : { "isSuccess": false, "code": 4007, "message":"리뷰를 확인할 안과의 위치를 지정해주세요." },
     REVIEW_LOCATION_INVALIED : { "isSuccess": false, "code": 4008, "message":"location 형식은 Array입니다. 예시: ['마포구', '송파구']" },
-    REVIEW_CATEGORY_INVALIED: {"isSuccress": false, "code": 4008, "message": "진료 타입을 정확히 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
-    REVIEW_CATEGORY_EMPTY: {"isSuccress": false, "code": 4009, "message": "진료 타입을 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
+    REVIEW_CATEGORY_INVALIED: {"isSuccress": false, "code": 4009, "message": "진료 타입을 정확히 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
+    REVIEW_CATEGORY_EMPTY: {"isSuccress": false, "code": 4010, "message": "진료 타입을 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
+    REVIEW_SCORE_TYPE_ERROR: {"isSuccress": false, "code": 4011, "message": `점수는 json으로 입력해주세요. 예시: {"friendlyScore": 1, "waitScore" : 0, "priceScore" : 2, "infoScore": 0, "surgeryScore": 2}`},
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
 
