@@ -42,8 +42,8 @@ module.exports = {
     REVIEW_TYPE_INVALIED : { "isSuccess": false, "code": 4006, "message":"리뷰 타입을 정확히 입력해주세요(normal, lasic, lasec, smile-lasic, lens-insert." },
     REVIEW_LOCATION_EMPTY : { "isSuccess": false, "code": 4007, "message":"리뷰를 확인할 안과의 위치를 지정해주세요." },
     REVIEW_LOCATION_INVALIED : { "isSuccess": false, "code": 4008, "message":"location 형식은 Array입니다. 예시: ['마포구', '송파구']" },
-    REVIEW_CATEGORY_INVALIED: {"isSuccress": false, "code": 4008, "message": "진료 타입을 정확히 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
-    REVIEW_CATEGORY_EMPTY: {"isSuccress": false, "code": 4009, "message": "진료 타입을 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
+    REVIEW_CATEGORY_INVALIED: {"isSuccress": false, "code": 4009, "message": "진료 타입을 정확히 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
+    REVIEW_CATEGORY_EMPTY: {"isSuccress": false, "code": 4010, "message": "진료 타입을 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
 
