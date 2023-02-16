@@ -18,11 +18,11 @@ exports.checkReviewStatus = async function(reivewId) {
     return reviewStatusResult[0].status;
 }
 
-//라식 병원 탑 9 반환
-exports.retrieveLasikTop9 = async function(location){
+//분야별 병원 탑 9 반환
+exports.retrieveTop9 = async function(location, category){
     const connection = await pool.getConnection(async (conn) => conn);
-    const retrieveLasikTop9Result = await reviewDao.retrieveLasikTop9(connection, location);
+    const retrieveTop9Result = await reviewDao.retrieveTop9(connection, location, category);
     connection.release();
 
-    return retrieveLasikTop9Result;
+    return retrieveTop9Result;
 }

@@ -242,30 +242,151 @@ async function insertReviewImg(connect, insertReviewImgParams) {
     return insertReviewImgRow;
 }
 
-async function retrieveLasikTop9(connect, location){
-    let retrieveLasikTop9Query;
+async function retrieveTop9(connect, location, type){
+    let retrieveTop9Query;
 
-    if(location.length == 0){
-        retrieveLasikTop9Query = `
-            SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
-            FROM LasicReview L
-            INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
-            ORDER BY L.score DESC;
-        `
+    if(type == 'lasic'){
+        //라식 병원 탑 9
+        if(location.length == 0){
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+                FROM LasicReview L
+                INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+                ORDER BY L.score DESC
+                LIMIT 9;
+            `
+        }
+        else{
+            const whereClause = dynamicLocationWhereClause(location);
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+                FROM LasicReview L
+                INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+                ${whereClause}
+                ORDER BY L.score DESC
+                LIMIT 9;
+            `
+        }
     }
-    else{
-        const whereClause = dynamicLocationWhereClause(location);
-        retrieveLasikTop9Query = `
-            SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
-            FROM LasicReview L
-            INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
-            ${whereClause}
-            ORDER BY L.score DESC;
-        `
+    else if(type == 'lasec'){
+        //라섹 병원 탑 9
+        if(location.length == 0){
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+                FROM LasecReview L
+                INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+                ORDER BY L.score DESC
+                LIMIT 9;
+            `
+        }
+        else{
+            const whereClause = dynamicLocationWhereClause(location);
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+                FROM LasecReview L
+                INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+                ${whereClause}
+                ORDER BY L.score DESC
+                LIMIT 9;
+            `
+        }
     }
+    else if(type == 'smile-lasic'){
+        //스마일 라식 병원 탑 9
+        if(location.length == 0){
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+                FROM SmileLasicReview L
+                INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+                ORDER BY L.score DESC
+                LIMIT 9;
+            `
+        }
+        else{
+            const whereClause = dynamicLocationWhereClause(location);
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+                FROM SmileLasicReview L
+                INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+                ${whereClause}
+                ORDER BY L.score DESC
+                LIMIT 9;
+            `
+        }
+    }
+    else if(type == 'lens-insert'){
+        //렌즈 삽입 병원 탑 9
+        if(location.length == 0){
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+                FROM LensInsertReview L
+                INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+                ORDER BY L.score DESC
+                LIMIT 9;
+            `
+        }
+        else{
+            const whereClause = dynamicLocationWhereClause(location);
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, L.score AS score
+                FROM LensInsertReview L
+                INNER JOIN Ophthalmology O on L.ophthalmologyId = O.id
+                ${whereClause}
+                ORDER BY L.score DESC
+                LIMIT 9;
+            `
+        }
+    }
+    else if(type == 'cataract'){
+        //백내장 수술 병원 탑 9
+        if(location.length == 0){
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, C.score AS score
+                FROM CataractReview C
+                INNER JOIN Ophthalmology O on C.ophthalmologyId = O.id
+                ORDER BY C.score DESC
+                LIMIT 9;
+            `
+        }
+        else{
+            const whereClause = dynamicLocationWhereClause(location);
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, C.score AS score
+                FROM CataractReview C
+                INNER JOIN Ophthalmology O on C.ophthalmologyId = O.id
+                ${whereClause}
+                ORDER BY C.score DESC
+                LIMIT 9;
+            `
+        }
+    }
+    else if(type == 'diagnosis'){
+        //일반 진료 병원 탑 9
+        if(location.length == 0){
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, D.score AS score
+                FROM diagnosisReview D
+                INNER JOIN Ophthalmology O on D.ophthalmologyId = O.id
+                ORDER BY D.score DESC
+                LIMIT 9;
+            `
+        }
+        else{
+            const whereClause = dynamicLocationWhereClause(location);
+            retrieveTop9Query = `
+                SELECT O.id AS HospitalId, O.name AS HospitalName, O.cityName AS cityName, O.townName AS townName, D.score AS score
+                FROM diagnosisReview D
+                INNER JOIN Ophthalmology O on D.ophthalmologyId = O.id
+                ${whereClause}
+                ORDER BY D.score DESC
+                LIMIT 9;
+            `
+        }
+    }
+   
     
 
-    const retrieveLasikTop9Result = await connect.query(retrieveLasikTop9Query);
+    const retrieveLasikTop9Result = await connect.query(retrieveTop9Query);
 
     return retrieveLasikTop9Result[0];
 }
@@ -296,5 +417,5 @@ module.exports = {
     lasecReview,
     smileLasicReview,
     lensInsertReview,
-    retrieveLasikTop9
+    retrieveTop9
 }
