@@ -6,36 +6,63 @@ const reviewDao = require("./reviewDao");
 //리뷰 조회
 exports.retrieveReviewListSimple = async function(ophthalmologyId) {
     const connection = await pool.getConnection(async (conn) => conn);
+    let response;
     try{
         await connection.beginTransaction();
         const reviewListResult = await reviewDao.retrieveReviewListSimple(connection, ophthalmologyId);
         await connection.commit();
-        return reviewListResult;
+        response = reviewListResult;
     } catch(err){
         await connection.rollback();
-        return errResponse(baseResponse.DB_ERROR);
+        response = errResponse(baseResponse.DB_ERROR);
     } finally{
         connection.release();
+        return response;
     }
-    
-    
-    
 }
 
 //리뷰 상태 확인
 exports.checkReviewStatus = async function(reivewId) {
     const connection = await pool.getConnection(async (conn) => conn);
-    const reviewStatusResult = await reviewDao.selectReviewStatus(connection, reivewId);
-    connection.release();
-
-    return reviewStatusResult[0].status;
+    let response;
+    try{
+        response = await reviewDao.selectReviewStatus(connection, reivewId);
+    }catch(error){
+        response = errResponse(baseResponse.DB_ERROR);
+    }finally{
+        connection.release();
+        return response;
+    }
 }
 
 //분야별 병원 탑 9 반환
 exports.retrieveTop9 = async function(location, category){
     const connection = await pool.getConnection(async (conn) => conn);
-    const retrieveTop9Result = await reviewDao.retrieveTop9(connection, location, category);
-    connection.release();
+    let response;
+    try{
+        response = await reviewDao.retrieveTop9(connection, location, category);
+    }catch(err){
+        response = errResponse(baseResponse.DB_ERROR);
+    }finally{
+        connection.release();
+        return response;
+    }    
+}
 
-    return retrieveTop9Result;
+//위치 기반 리뷰 반환
+exports.getReviewArea = async function(location){
+    const connection = await pool.getConnection(async (conn) => conn);
+    let response;
+    try{
+        await connection.beginTransaction();
+        response = await reviewDao.getReviewArea(connection, location);
+        await connection.commit();
+    } catch(err){
+        await connection.rollback();
+        response = errResponse(baseResponse.TRANSACTION_ERROR);
+    }  finally{
+        connection.commit();
+        connection.release();
+        return response;
+    }
 }
