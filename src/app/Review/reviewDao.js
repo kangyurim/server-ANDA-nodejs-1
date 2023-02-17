@@ -470,7 +470,67 @@ async function getReviewArea(connection, location){
         LIMIT 10;
     `
     const lasicReviewRow = await connection.query(lasicReview);
-    getReviewAreaResult.lasicSimpleReview = lasicReviewRow[0];
+    getReviewAreaResult.lasicAreaReview = lasicReviewRow[0];
+
+    const lasecReview = `
+        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN LasecReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        ${whereClause} AND Reivew.status = 'Activated'
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const lasecReviewRow = await connection.query(lasecReview);
+    getReviewAreaResult.lasecAreaReview = lasecReviewRow[0];
+
+    const lensInsertReview = `
+        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN LensInsertReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        ${whereClause} AND Reivew.status = 'Activated'
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const lensInsertReviewRow = await connection.query(lensInsertReview);
+    getReviewAreaResult.lensInsertAreaReview = lensInsertReviewRow[0];
+
+    const smileLasicReview = `
+        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN SmileLasicReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        ${whereClause} AND Reivew.status = 'Activated'
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const smileLasicReviewRow = await connection.query(smileLasicReview);
+    getReviewAreaResult.smileLasicAreaReview = smileLasicReviewRow[0];
+
+    const cataractReview = `
+        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN CataractReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        ${whereClause} AND Reivew.status = 'Activated'
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const cataractReviewRow = await connection.query(cataractReview);
+    getReviewAreaResult.cataractAreaReview = cataractReviewRow[0];
+    
+    const diagnosisReview = `
+        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        FROM Ophthalmology AS O
+        INNER JOIN diagnosisReview Reivew on O.id = Reivew.ophthalmologyId
+        INNER JOIN User U on Reivew.userId = U.id
+        ${whereClause} AND Reivew.status = 'Activated'
+        ORDER BY Reivew.createdAt DESC
+        LIMIT 10;
+    `
+    const diagnosisReviewRow = await connection.query(diagnosisReview);
+    getReviewAreaResult.diagnosisAreaReview = diagnosisReviewRow[0];
 
     return getReviewAreaResult
 
