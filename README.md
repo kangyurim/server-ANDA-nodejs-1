@@ -1,5 +1,3 @@
-KAU Astro Chaser Web server 
+# 2022 UMC 프로젝트 - 안다
 
-testtest
-
-crong crogn crong crong
+안과 정보의 분균형을 해소하기 위한 앱입니다.
