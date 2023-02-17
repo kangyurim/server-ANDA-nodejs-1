@@ -85,3 +85,19 @@ exports.postReview = async function(req, res){
 
     return res.send(response(baseResponse.SUCCESS, top9Review));
  }
+
+ /**
+  * 지역을 기준으로 병원 리뷰 가져오기
+  * @param {*} req 
+  * @param {*} res 
+  * @returns 
+  */
+ exports.getReviewArea = async function(req, res){
+    const location = req.body.location;
+    if(!location) return res.send(response(baseResponse.REVIEW_LOCATION_EMPTY));
+    if(typeof(location) != 'object') return res.send(response(baseResponse.REVIEW_LOCATION_INVALIED));
+
+    const getReviewArea = await reviewProvider.getReviewArea(location);
+
+    return res.send(response(baseResponse.SUCCESS, getReviewArea));
+ }
