@@ -47,6 +47,7 @@ module.exports = {
     REVIEW_SCORE_TYPE_ERROR: {"isSuccress": false, "code": 4011, "message": `점수는 json으로 입력해주세요. 예시: {"friendlyScore": 1, "waitScore" : 0, "priceScore" : 2, "infoScore": 0, "recommendScore": 2}`},
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
+    TRANSACTION_ERROR : {"isSuccess": false, "code": 5002, "message":"트랜젝션중 에러가 발생했습니다. 다시 요청해주세요."},
 
      //TOEKN 관련 Error
      TOKEN_EMPTY : { "isSuccess": false, "code": 5101, "message":"토큰이 없습니다."},
