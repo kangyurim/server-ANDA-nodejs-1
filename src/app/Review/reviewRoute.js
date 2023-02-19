@@ -10,7 +10,7 @@ module.exports = function(app){
     app.get('/app/review/view/simple', review.getReviewSimple);
 
     //3. 병원 리뷰 지역 카테고리로 보기
-    app.get('/app/review/view/area', review.getReviewArea);
+    app.post('/app/review/view/area', review.getReviewArea);
 
     //4. 분야별 리뷰 별점 Top 9 가져오기
     app.post('/app/review/rank/top9', review.getTop9);
