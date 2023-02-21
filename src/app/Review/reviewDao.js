@@ -171,6 +171,7 @@ async function lasicReview(connect, insertReviewParams) {
     return result
 }
 
+//라섹 리뷰 작성하기
 async function lasecReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -204,6 +205,12 @@ async function lasecReview(connect, insertReviewParams) {
     }
     else  result.titleInptRes = 'FAIL';
 
+    const insertMedicalExpensesQuery = `
+    INSERT INTO LasecMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
     return result
 }
 
