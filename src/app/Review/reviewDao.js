@@ -123,6 +123,12 @@ async function diagnosisReview(connect, insertReviewParams) {
     }
     else  result.titleInptRes = 'FAIL';
 
+    const insertMedicalExpensesQuery = `
+    INSERT INTO diagnosisMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
     return result
 }
 
