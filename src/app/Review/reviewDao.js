@@ -258,6 +258,7 @@ async function smileLasicReview(connect, insertReviewParams) {
     return result
 }
 
+//렌즈 삽입술 리뷰 작성하기
 async function lensInsertReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -291,9 +292,16 @@ async function lensInsertReview(connect, insertReviewParams) {
     }
     else  result.titleInptRes = 'FAIL';
 
+    const insertMedicalExpensesQuery = `
+    INSERT INTO LensInsertMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
     return result
 }
 
+//백내장 수술 리뷰 작성하기
 async function cataractReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -327,6 +335,12 @@ async function cataractReview(connect, insertReviewParams) {
         }
     }
     else  result.titleInptRes = 'FAIL';
+
+    const insertMedicalExpensesQuery = `
+    INSERT INTO CataractMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
 
     return result
 }
