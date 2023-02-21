@@ -53,18 +53,21 @@ exports.postReview = async function(req, res){
     */
 
     const {ophthalmologyId} = req.body;
-    
-        // validation
-        if(!ophthalmologyId) {
-            return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_EMPTY));
-        }
-        if (ophthalmologyId <= 0) {
-            return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_LENGTH));
-        }
-    
-        const reviewListResult = await reviewProvider.retrieveReviewListSimple(ophthalmologyId);
-    
-        return res.send(response(baseResponse.SUCCESS, reviewListResult));
+    console.log(typeof(ophthalmologyId))
+    // validation
+    if(!ophthalmologyId) {
+        return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_EMPTY));
+    }
+    if (ophthalmologyId <= 0) {
+        return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_LENGTH));
+    }
+    if (typeof(ophthalmologyId) != 'number'){
+        return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_TYPE_ERROR));
+    }
+
+    const reviewListResult = await reviewProvider.retrieveReviewListSimple(ophthalmologyId);
+
+    return res.send(response(baseResponse.SUCCESS, reviewListResult));
  }
 
  /**
