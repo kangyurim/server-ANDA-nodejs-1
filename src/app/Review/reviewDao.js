@@ -210,10 +210,11 @@ async function lasecReview(connect, insertReviewParams) {
     `;
     const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
 
-result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
     return result
 }
 
+//스마일 라식 리뷰
 async function smileLasicReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -246,6 +247,13 @@ async function smileLasicReview(connect, insertReviewParams) {
         }
     }
     else  result.titleInptRes = 'FAIL';
+
+    const insertMedicalExpensesQuery = `
+    INSERT INTO SmileLasicMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
 
     return result
 }
