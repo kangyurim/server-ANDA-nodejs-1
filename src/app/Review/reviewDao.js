@@ -461,7 +461,7 @@ async function getReviewArea(connection, location){
     const whereClause = dynamicLocationWhereClause(location);
     
     const lasicReview = `
-        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        SELECT O.id AS hospitalId, O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
         FROM Ophthalmology AS O
         INNER JOIN LasicReview Reivew on O.id = Reivew.ophthalmologyId
         INNER JOIN User U on Reivew.userId = U.id
@@ -473,7 +473,7 @@ async function getReviewArea(connection, location){
     getReviewAreaResult.lasicAreaReview = lasicReviewRow[0];
 
     const lasecReview = `
-        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        SELECT O.id AS hospitalId, O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
         FROM Ophthalmology AS O
         INNER JOIN LasecReview Reivew on O.id = Reivew.ophthalmologyId
         INNER JOIN User U on Reivew.userId = U.id
@@ -485,7 +485,7 @@ async function getReviewArea(connection, location){
     getReviewAreaResult.lasecAreaReview = lasecReviewRow[0];
 
     const lensInsertReview = `
-        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        SELECT O.id AS hospitalId, O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
         FROM Ophthalmology AS O
         INNER JOIN LensInsertReview Reivew on O.id = Reivew.ophthalmologyId
         INNER JOIN User U on Reivew.userId = U.id
@@ -497,7 +497,7 @@ async function getReviewArea(connection, location){
     getReviewAreaResult.lensInsertAreaReview = lensInsertReviewRow[0];
 
     const smileLasicReview = `
-        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        SELECT O.id AS hospitalId, O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
         FROM Ophthalmology AS O
         INNER JOIN SmileLasicReview Reivew on O.id = Reivew.ophthalmologyId
         INNER JOIN User U on Reivew.userId = U.id
@@ -509,7 +509,7 @@ async function getReviewArea(connection, location){
     getReviewAreaResult.smileLasicAreaReview = smileLasicReviewRow[0];
 
     const cataractReview = `
-        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        SELECT O.id AS hospitalId, O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
         FROM Ophthalmology AS O
         INNER JOIN CataractReview Reivew on O.id = Reivew.ophthalmologyId
         INNER JOIN User U on Reivew.userId = U.id
@@ -521,7 +521,7 @@ async function getReviewArea(connection, location){
     getReviewAreaResult.cataractAreaReview = cataractReviewRow[0];
     
     const diagnosisReview = `
-        SELECT O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
+        SELECT O.id AS hospitalId, O.name AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
         FROM Ophthalmology AS O
         INNER JOIN diagnosisReview Reivew on O.id = Reivew.ophthalmologyId
         INNER JOIN User U on Reivew.userId = U.id
