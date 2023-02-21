@@ -12,9 +12,8 @@ const baseResponse = require("../../../config/baseResponseStatus");
  */
 exports.postReview = async function(req, res){
     const token = req.verifiedToken;
-    const {hospitalId, reviewType, score, content} = req.body;
+    const {hospitalId, reviewType, score, content, expenseAmount} = req.body;
     
-
     if(!score) 
         return res.send(response(baseResponse.REVIEW_SCORE_EMPTY));
     const scoreToJson = JSON.parse(score);
@@ -27,8 +26,10 @@ exports.postReview = async function(req, res){
         return res.send(response(baseResponse.REVIEW_TYPE_EMPTY));
     if(content.length < 20)
         return res.send(response(baseResponse.REVIEW_CONTENT_LENGTH));
-    if(reviewType != 'normal' && reviewType != 'lasic' && reviewType != 'lasec' && reviewType != 'smile-lasic' && reviewType != 'lens-insert' && reviewType != 'cataract') return res.send(response(baseResponse.REVIEW_TYPE_INVALIED));
-
+    if(reviewType != 'normal' && reviewType != 'lasic' && reviewType != 'lasec' && reviewType != 'smile-lasic' && reviewType != 'lens-insert' && reviewType != 'cataract') 
+        return res.send(response(baseResponse.REVIEW_TYPE_INVALIED));
+    if(!expenseAmount)
+        return res.send(response(baseResponse.REVIEW_EXPENSEAMOUNT_EMPTY));
     
     const postReviewResponse = await reviewService.createReview(
         req,
@@ -36,6 +37,7 @@ exports.postReview = async function(req, res){
         reviewType,
         scoreToJson,
         content,
+        expenseAmount,
         token
     );
 
@@ -53,7 +55,6 @@ exports.postReview = async function(req, res){
     */
 
     const {ophthalmologyId} = req.body;
-    console.log(typeof(ophthalmologyId))
     // validation
     if(!ophthalmologyId) {
         return res.send(response(baseResponse.REVIEW_OPHTHALMOLOHYID_EMPTY));
