@@ -123,9 +123,16 @@ async function diagnosisReview(connect, insertReviewParams) {
     }
     else  result.titleInptRes = 'FAIL';
 
+    const insertMedicalExpensesQuery = `
+    INSERT INTO diagnosisMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
     return result
 }
 
+//라식 리뷰 작성하기
 async function lasicReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -144,6 +151,7 @@ async function lasicReview(connect, insertReviewParams) {
             for(var i in insertReviewParams.pictureUrls)
             {   const insertMediaQuery = `INSERT INTO LasicReviewMedia(reviewId, picURL) VALUES(?, ?)`
                 const insertMediaQueryRes = await connect.query(insertMediaQuery, [insertId ,insertReviewParams.pictureUrls[i]])
+                
                 if(insertMediaQueryRes[0].affectedRows != 1) 
                 {
                     result.mediaInptRes = 'FAIL';
@@ -159,9 +167,17 @@ async function lasicReview(connect, insertReviewParams) {
     }
     else  result.titleInptRes = 'FAIL';
 
+    const insertMedicalExpensesQuery = `
+        INSERT INTO LasicMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+    
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
+
     return result
 }
 
+//라섹 리뷰 작성하기
 async function lasecReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -195,9 +211,16 @@ async function lasecReview(connect, insertReviewParams) {
     }
     else  result.titleInptRes = 'FAIL';
 
+    const insertMedicalExpensesQuery = `
+    INSERT INTO LasecMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
     return result
 }
 
+//스마일 라식 리뷰
 async function smileLasicReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -231,9 +254,17 @@ async function smileLasicReview(connect, insertReviewParams) {
     }
     else  result.titleInptRes = 'FAIL';
 
+    const insertMedicalExpensesQuery = `
+    INSERT INTO SmileLasicMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
+
     return result
 }
 
+//렌즈 삽입술 리뷰 작성하기
 async function lensInsertReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -267,9 +298,16 @@ async function lensInsertReview(connect, insertReviewParams) {
     }
     else  result.titleInptRes = 'FAIL';
 
+    const insertMedicalExpensesQuery = `
+    INSERT INTO LensInsertMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
     return result
 }
 
+//백내장 수술 리뷰 작성하기
 async function cataractReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -303,6 +341,12 @@ async function cataractReview(connect, insertReviewParams) {
         }
     }
     else  result.titleInptRes = 'FAIL';
+
+    const insertMedicalExpensesQuery = `
+    INSERT INTO CataractMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
 
     return result
 }

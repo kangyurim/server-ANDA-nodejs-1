@@ -14,7 +14,9 @@ const reviewProvider = require("./reviewProvider");
  * @param {*} content 
  * @returns 
  */
-exports.createReview = async function(req, hospitalId, reviewType, scoreToJson, content, token) {
+exports.createReview = async function(req, hospitalId, reviewType, scoreToJson, content, expenseAmount, token) {
+    const connection = await pool.getConnection(async (conn) => conn);
+    let reviewResult;
     try {
         let insertReviewParams = new Object();
         let categoryScore = new Object();
@@ -49,26 +51,23 @@ exports.createReview = async function(req, hospitalId, reviewType, scoreToJson, 
         insertReviewParams.infoScore = categoryScore.infoScore;
         insertReviewParams.recommendScore = categoryScore.recommendScore;
 
+        insertReviewParams.expenseAmount = expenseAmount;
         insertReviewParams.reviewType = reviewType;
         insertReviewParams.writerId = token.id;
         insertReviewParams.pictureUrls = s3Urls;
-
-        const connection = await pool.getConnection(async (conn) => conn);
-        let reviewResult;
+        
         if(reviewType == 'normal') reviewResult = await reviewDao.diagnosisReview(connection, insertReviewParams);
         else if(reviewType == 'lasic') reviewResult = await reviewDao.lasicReview(connection, insertReviewParams);
         else if(reviewType == 'lasec') reviewResult = await reviewDao.lasecReview(connection, insertReviewParams);
         else if(reviewType == 'smile-lasic') reviewResult = await reviewDao.smileLasicReview(connection, insertReviewParams);
         else if(reviewType == 'lens-insert') reviewResult = await reviewDao.lensInsertReview(connection, insertReviewParams);
         else if(reviewType == 'cataract') reviewResult = await reviewDao.cataractReview(connection, insertReviewParams);
-
-
-        connection.release();
-
-        return response(baseResponse.SUCCESS, { addedReview: reviewResult });
     } catch (err) {
         console.log(`App - createReview Service Error\n: ${err.message}`);
-
+        connection.release();
         return errResponse(baseResponse.DB_ERROR);
+    } finally{
+        connection.release();
+        return response(baseResponse.SUCCESS, { addedReview: reviewResult });
     }
 }

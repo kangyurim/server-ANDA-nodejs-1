@@ -46,6 +46,10 @@ module.exports = {
     REVIEW_CATEGORY_INVALIED: {"isSuccress": false, "code": 4010, "message": "진료 타입을 정확히 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
     REVIEW_CATEGORY_EMPTY: {"isSuccress": false, "code": 4011, "message": "진료 타입을 입력해주세요(lasic, lasec, smile-lasic, lens-insert, cataract, diagnosis)"},
     REVIEW_SCORE_TYPE_ERROR: {"isSuccress": false, "code": 4012, "message": `점수는 json으로 입력해주세요. 예시: {"friendlyScore": 1, "waitScore" : 0, "priceScore" : 2, "infoScore": 0, "recommendScore": 2}`},
+    REVIEW_EXPENSECONTENT_EMPTY: {"isSuccess": false, "code": 4013, "message": "비용리뷰 내용을 입력해주세요."},
+    REVIEW_EXPENSEAMOUNT_EMPTY: {"isSuccess": false, "code": 4014, "message": "비용리뷰 금액을 입력해주세요."},
+    
+    
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
     TRANSACTION_ERROR : {"isSuccess": false, "code": 5002, "message":"트랜젝션중 에러가 발생했습니다. 다시 요청해주세요."},
