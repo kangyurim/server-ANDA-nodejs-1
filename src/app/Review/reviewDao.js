@@ -126,6 +126,7 @@ async function diagnosisReview(connect, insertReviewParams) {
     return result
 }
 
+//라식 리뷰 작성하기
 async function lasicReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -144,6 +145,7 @@ async function lasicReview(connect, insertReviewParams) {
             for(var i in insertReviewParams.pictureUrls)
             {   const insertMediaQuery = `INSERT INTO LasicReviewMedia(reviewId, picURL) VALUES(?, ?)`
                 const insertMediaQueryRes = await connect.query(insertMediaQuery, [insertId ,insertReviewParams.pictureUrls[i]])
+                
                 if(insertMediaQueryRes[0].affectedRows != 1) 
                 {
                     result.mediaInptRes = 'FAIL';
@@ -158,6 +160,13 @@ async function lasicReview(connect, insertReviewParams) {
         }
     }
     else  result.titleInptRes = 'FAIL';
+
+    const insertMedicalExpensesQuery = `
+        INSERT INTO LasicMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+    `;
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+    
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
 
     return result
 }
