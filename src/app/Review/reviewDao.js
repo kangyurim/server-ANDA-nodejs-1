@@ -90,6 +90,60 @@ async function selectReviewStatus(connection, reviewId) {
     return reviewStatusRow;
 }
 
+//리뷰 작성 모듈
+async function createReview(connect, insertReviewParams){
+    let result = new Object();
+    let insertReviewQuery;
+    let insertMediaQuery;
+    let insertMedicalExpensesQuery;
+
+    if(insertReviewParams.reviewType == 'lasic') {
+        insertReviewQuery = `
+        insert into LasicReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);   
+        `
+        insertMediaQuery = `
+        INSERT INTO diagnosisReviewMedia(reviewId, picURL) VALUES(?, ?)
+        `
+        insertMedicalExpensesQuery = `
+        INSERT INTO LasicMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+        `
+    }
+    
+    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
+
+    if(insertReviewRow[0].affectedRows == 1)
+    {
+        result.titleInptRes = 'SUCCESS';
+        const insertId = insertReviewRow[0].insertId;
+       
+        if(insertReviewParams.pictureUrls.length != 0)
+        {
+            for(var i in insertReviewParams.pictureUrls)
+            {   
+                const insertMediaQueryRes = await connect.query(insertMediaQuery, [insertId ,insertReviewParams.pictureUrls[i]])
+                if(insertMediaQueryRes[0].affectedRows != 1) 
+                {
+                    result.mediaInptRes = 'FAIL';
+                    break;
+                }
+            }
+            result.mediaInptRes = 'SUCCESS';
+        }
+        else if(insertReviewParams.pictureUrls.length == 0)
+        {
+            result.mediaInptRes = 'NULL BUT SUCCESS';
+        }
+    }
+    else  result.titleInptRes = 'FAIL';
+
+    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
+
+    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
+    return result
+}
+
+
 async function diagnosisReview(connect, insertReviewParams) {
     let result = new Object();
     const insertReviewQuery = `
@@ -609,5 +663,5 @@ module.exports = {
     smileLasicReview,
     lensInsertReview,
     retrieveTop9,
-    
+    createReview,
 }
