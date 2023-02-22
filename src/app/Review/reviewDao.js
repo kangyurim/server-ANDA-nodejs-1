@@ -133,6 +133,18 @@ async function createReview(connect, insertReviewParams){
         INSERT INTO diagnosisMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
         `
     }
+    else if(insertReviewParams.reviewType == 'lens-insert') {
+        insertReviewQuery = `
+        insert into LensInsertReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);   
+        `
+        insertMediaQuery = `
+        INSERT INTO LensInsertReviewMedia(reviewId, picURL) VALUES(?, ?)
+        `
+        insertMedicalExpensesQuery = `
+        INSERT INTO LensInsertMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+        `
+    }
     
     const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
@@ -161,49 +173,6 @@ async function createReview(connect, insertReviewParams){
     }
     else  result.titleInptRes = 'FAIL';
 
-    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
-
-    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
-    return result
-}
-
-
-async function diagnosisReview(connect, insertReviewParams) {
-    let result = new Object();
-    const insertReviewQuery = `
-        insert into diagnosisReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);    
-    `;
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
-
-    if(insertReviewRow[0].affectedRows == 1)
-    {
-        result.titleInptRes = 'SUCCESS';
-        const insertId = insertReviewRow[0].insertId;
-       
-        if(insertReviewParams.pictureUrls.length != 0)
-        {
-            for(var i in insertReviewParams.pictureUrls)
-            {   const insertMediaQuery = `INSERT INTO diagnosisReviewMedia(reviewId, picURL) VALUES(?, ?)`
-                const insertMediaQueryRes = await connect.query(insertMediaQuery, [insertId ,insertReviewParams.pictureUrls[i]])
-                if(insertMediaQueryRes[0].affectedRows != 1) 
-                {
-                    result.mediaInptRes = 'FAIL';
-                    break;
-                }
-            }
-            result.mediaInptRes = 'SUCCESS';
-        }
-        else if(insertReviewParams.pictureUrls.length == 0)
-        {
-            result.mediaInptRes = 'NULL BUT SUCCESS';
-        }
-    }
-    else  result.titleInptRes = 'FAIL';
-
-    const insertMedicalExpensesQuery = `
-    INSERT INTO diagnosisMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
-    `;
     const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
 
     result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
@@ -591,11 +560,9 @@ module.exports = {
     retrieveReviewListSimple,
     getReviewArea,
     selectReviewStatus,
-    diagnosisReview,
     insertReviewImg,
     cataractReview,
     smileLasicReview,
-    lensInsertReview,
     retrieveTop9,
     createReview,
 }

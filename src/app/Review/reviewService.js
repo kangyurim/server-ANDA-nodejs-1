@@ -60,7 +60,7 @@ exports.createReview = async function(req, hospitalId, reviewType, scoreToJson, 
         else if(reviewType == 'lasic') reviewResult = await reviewDao.createReview(connection, insertReviewParams);
         else if(reviewType == 'lasec') reviewResult = await reviewDao.createReview(connection, insertReviewParams);
         else if(reviewType == 'smile-lasic') reviewResult = await reviewDao.smileLasicReview(connection, insertReviewParams);
-        else if(reviewType == 'lens-insert') reviewResult = await reviewDao.lensInsertReview(connection, insertReviewParams);
+        else if(reviewType == 'lens-insert') reviewResult = await reviewDao.createReview(connection, insertReviewParams);
         else if(reviewType == 'cataract') reviewResult = await reviewDao.cataractReview(connection, insertReviewParams);
     } catch (err) {
         console.log(`App - createReview Service Error\n: ${err.message}`);
