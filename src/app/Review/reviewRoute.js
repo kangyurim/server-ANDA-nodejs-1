@@ -16,6 +16,9 @@ module.exports = function(app){
     app.post('/app/review/rank/top9', review.getTop9);
 
     //5. 병원 아이디 입력시 간단 리뷰 가져오기
-    app.post('/app/review/view/simple')
+    app.post('/app/review/view/simple', review.getDetatilReview);
+
+    //6. 리뷰 상세 보기
+    app.post('/app/review/view/detail', review.getDetatilReview);
 
 }

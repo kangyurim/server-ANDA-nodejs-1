@@ -34,7 +34,7 @@ module.exports = {
 
     // Review -> 리뷰 관련 Error 코드
     //REVIEW_POSTIMGURLS_EMPTY
-    REVIEW_CONTENT_LENGTH : { "isSuccess": false, "code": 4001, "message":"최소 10자 이상 작성해주세요." },
+    REVIEW_CONTENT_LENGTH : { "isSuccess": false, "code": 4001, "message":"최소 20자 이상 작성해주세요." },
     REVIEW_SCORE_EMPTY : { "isSuccess": false, "code": 4002, "message":"점수 키가 존재하지 않습니다." },
     REVIEW_OPHTHALMOLOHYID_EMPTY : { "isSuccess": false, "code": 4003, "message":"병원id를 입력해주세요." },
     REVIEW_OPHTHALMOLOHYID_LENGTH : { "isSuccess": false, "code": 4004, "message":"병원id는 0보다 큰 값으로 입력해주세요." },
@@ -48,7 +48,8 @@ module.exports = {
     REVIEW_SCORE_TYPE_ERROR: {"isSuccress": false, "code": 4012, "message": `점수는 json으로 입력해주세요. 예시: {"friendlyScore": 1, "waitScore" : 0, "priceScore" : 2, "infoScore": 0, "recommendScore": 2}`},
     REVIEW_EXPENSECONTENT_EMPTY: {"isSuccess": false, "code": 4013, "message": "비용리뷰 내용을 입력해주세요."},
     REVIEW_EXPENSEAMOUNT_EMPTY: {"isSuccess": false, "code": 4014, "message": "비용리뷰 금액을 입력해주세요."},
-    
+    REVIEW_HOSPITALID_EMPTY: {"isSuccess": false, "code": 4015, "message": "병원id를 입력해주세요."},
+    REVIEW_REVIEWID_EMPTY: {"isSuccess": false, "code": 4016, "message": "리뷰id를 입력해주세요."},
     
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},

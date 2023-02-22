@@ -66,3 +66,17 @@ exports.getReviewArea = async function(location){
         return response;
     }
 }
+
+
+exports.getDetailReview = async function(reviewType, reviewId){
+    const connection = await pool.getConnection(async (conn) => conn);
+    let response;
+    try{
+        response = await reviewDao.getDetailReview(connection, reviewType, reviewId);
+    } catch(err){
+        response = errResponse(baseResponse.DB_ERROR);
+    }finally{
+        connection.release();
+        return response;
+    }
+}

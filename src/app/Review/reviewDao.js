@@ -103,7 +103,7 @@ async function createReview(connect, insertReviewParams){
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);   
         `
         insertMediaQuery = `
-        INSERT INTO diagnosisReviewMedia(reviewId, picURL) VALUES(?, ?)
+        INSERT INTO LasicReviewMedia(reviewId, picURL) VALUES(?, ?)
         `
         insertMedicalExpensesQuery = `
         INSERT INTO LasicMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
@@ -166,7 +166,7 @@ async function createReview(connect, insertReviewParams){
         INSERT INTO CataractReviewMedia(reviewId, picURL) VALUES(?, ?)
         `
         insertMedicalExpensesQuery = `
-        INSERT INTO CataractMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+        INSERT INTO CataractMedicalExpenses(reviewIdx, expense) VALUES(?, ?);
         `
     }
 
@@ -432,6 +432,32 @@ async function getReviewArea(connection, location){
 
 }
 
+
+async function getDetailReview(connection, reviewType, reviewId){
+    let result = new Object();
+    let queryReviewType;
+
+    if(reviewType == 'lasic') queryReviewType = 'Lasic';
+    if(reviewType == 'lasec') queryReviewType = 'Lasec';
+    if(reviewType == 'lens-insert') queryReviewType = 'LensInsert';
+    if(reviewType == 'smile-lasic') queryReviewType = 'SmileLasic';
+    if(reviewType == 'cataract') queryReviewType = 'Cataract';
+    if(reviewType == 'normal') queryReviewType = 'diagnosis';
+
+    textReviewQuery = `
+        SELECT OriReview.id AS reviewId, OriReview.createdAt, U.id AS userId, U.nickname, OriReview.reviewText,
+        OriReview.friendlyScore, OriReview.priceScore, OriReview.waitScore, OriReview.recommendScore, ExpReview.expense
+        FROM ${queryReviewType}Review OriReview
+        INNER JOIN User U ON OriReview.id = U.id
+        INNER JOIN ${queryReviewType}MedicalExpenses ExpReview on OriReview.id = ExpReview.reviewIdx
+        WHERE OriReview.id = ? AND OriReview.status = 'Activated';
+        `
+    const textReviewRow =  await connection.query(textReviewQuery, reviewId);
+    result.textReview = textReviewRow[0];
+    return result;
+}
+
+
 function dynamicLocationWhereClause(location){
     let whereClause = '';
     if(location.size != 0){
@@ -456,4 +482,6 @@ module.exports = {
     insertReviewImg,
     retrieveTop9,
     createReview,
+    getDetailReview,
 }
+
