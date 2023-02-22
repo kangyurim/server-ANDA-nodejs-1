@@ -109,6 +109,18 @@ async function createReview(connect, insertReviewParams){
         INSERT INTO LasicMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
         `
     }
+    else if(insertReviewParams.reviewType == 'lasec') {
+        insertReviewQuery = `
+        insert into LasecReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);   
+        `
+        insertMediaQuery = `
+        INSERT INTO LasecReviewMedia(reviewId, picURL) VALUES(?, ?)
+        `
+        insertMedicalExpensesQuery = `
+        INSERT INTO LasecMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+        `
+    }
     
     const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
@@ -179,94 +191,6 @@ async function diagnosisReview(connect, insertReviewParams) {
 
     const insertMedicalExpensesQuery = `
     INSERT INTO diagnosisMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
-    `;
-    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
-
-    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
-    return result
-}
-
-//라식 리뷰 작성하기
-async function lasicReview(connect, insertReviewParams) {
-    let result = new Object();
-    const insertReviewQuery = `
-        insert into LasicReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);    
-    `;
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
-
-    if(insertReviewRow[0].affectedRows == 1)
-    {
-        result.titleInptRes = 'SUCCESS';
-        const insertId = insertReviewRow[0].insertId;
-       
-        if(insertReviewParams.pictureUrls.length != 0)
-        {
-            for(var i in insertReviewParams.pictureUrls)
-            {   const insertMediaQuery = `INSERT INTO LasicReviewMedia(reviewId, picURL) VALUES(?, ?)`
-                const insertMediaQueryRes = await connect.query(insertMediaQuery, [insertId ,insertReviewParams.pictureUrls[i]])
-                
-                if(insertMediaQueryRes[0].affectedRows != 1) 
-                {
-                    result.mediaInptRes = 'FAIL';
-                    break;
-                }
-            }
-            result.mediaInptRes = 'SUCCESS';
-        }
-        else if(insertReviewParams.pictureUrls.length == 0)
-        {
-            result.mediaInptRes = 'NULL BUT SUCCESS';
-        }
-    }
-    else  result.titleInptRes = 'FAIL';
-
-    const insertMedicalExpensesQuery = `
-        INSERT INTO LasicMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
-    `;
-    const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
-    
-    result.insertedInptRes= insertMedicalExpensesRow[0].affectedRows;
-
-    return result
-}
-
-//라섹 리뷰 작성하기
-async function lasecReview(connect, insertReviewParams) {
-    let result = new Object();
-    const insertReviewQuery = `
-        insert into LasecReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-    `;
-    const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
-
-    if(insertReviewRow[0].affectedRows == 1)
-    {
-        result.titleInptRes = 'SUCCESS';
-        const insertId = insertReviewRow[0].insertId;
-       
-        if(insertReviewParams.pictureUrls.length != 0)
-        {
-            for(var i in insertReviewParams.pictureUrls)
-            {   const insertMediaQuery = `INSERT INTO LasecReviewMedia(reviewId, picURL) VALUES(?, ?)`
-                const insertMediaQueryRes = await connect.query(insertMediaQuery, [insertId, insertReviewParams.pictureUrls[i]])
-                if(insertMediaQueryRes[0].affectedRows != 1) 
-                {
-                    result.mediaInptRes = 'FAIL';
-                    break;
-                }
-            }
-            result.mediaInptRes = 'SUCCESS';
-        }
-        else if(insertReviewParams.pictureUrls.length == 0)
-        {
-            result.mediaInptRes = 'NULL BUT SUCCESS';
-        }
-    }
-    else  result.titleInptRes = 'FAIL';
-
-    const insertMedicalExpensesQuery = `
-    INSERT INTO LasecMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
     `;
     const insertMedicalExpensesRow = await connect.query(insertMedicalExpensesQuery, [insertReviewRow[0].insertId, insertReviewParams.expenseAmount]);
 
@@ -657,7 +581,6 @@ module.exports = {
     selectReviewStatus,
     diagnosisReview,
     insertReviewImg,
-    lasicReview,
     lasecReview,
     cataractReview,
     smileLasicReview,
