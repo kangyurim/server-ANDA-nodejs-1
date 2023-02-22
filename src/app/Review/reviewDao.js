@@ -121,6 +121,18 @@ async function createReview(connect, insertReviewParams){
         INSERT INTO LasecMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
         `
     }
+    else if(insertReviewParams.reviewType == 'normal') {
+        insertReviewQuery = `
+        insert into diagnosisReview(ophthalmologyId, userId, reviewText, friendlyScore, waitScore, priceScore, infoScore, recommendScore)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);   
+        `
+        insertMediaQuery = `
+        INSERT INTO diagnosisReviewMedia(reviewId, picURL) VALUES(?, ?)
+        `
+        insertMedicalExpensesQuery = `
+        INSERT INTO diagnosisMedicalExpenses (reviewIdx, expense) VALUES(?, ?);
+        `
+    }
     
     const insertReviewRow = await connect.query(insertReviewQuery, [insertReviewParams.hospitalId, insertReviewParams.writerId, insertReviewParams.content, insertReviewParams.friendlyScore, insertReviewParams.waitScore, insertReviewParams.priceScore, insertReviewParams.infoScore, insertReviewParams.recommendScore]);
 
@@ -581,7 +593,6 @@ module.exports = {
     selectReviewStatus,
     diagnosisReview,
     insertReviewImg,
-    lasecReview,
     cataractReview,
     smileLasicReview,
     lensInsertReview,

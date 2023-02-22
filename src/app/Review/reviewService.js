@@ -56,7 +56,7 @@ exports.createReview = async function(req, hospitalId, reviewType, scoreToJson, 
         insertReviewParams.writerId = token.id;
         insertReviewParams.pictureUrls = s3Urls;
         
-        if(reviewType == 'normal') reviewResult = await reviewDao.diagnosisReview(connection, insertReviewParams);
+        if(reviewType == 'normal') reviewResult = await reviewDao.createReview(connection, insertReviewParams);
         else if(reviewType == 'lasic') reviewResult = await reviewDao.createReview(connection, insertReviewParams);
         else if(reviewType == 'lasec') reviewResult = await reviewDao.createReview(connection, insertReviewParams);
         else if(reviewType == 'smile-lasic') reviewResult = await reviewDao.smileLasicReview(connection, insertReviewParams);
