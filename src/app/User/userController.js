@@ -226,3 +226,22 @@ exports.updatePassword = async function(req, res){
 
     return res.send(updatePasswordResponse);
 }
+
+/*
+* 유저 아이디로 리뷰 조회 API
+* @param {json} req 
+* @param {json} res 
+*/
+exports.getUserReviews = async function(req, res){
+   /*
+       Body: userId
+   */
+
+    const {userId} = req.body;
+    
+   if(!userId) {return res.send(response(baseResponse.USER_ID_NOT_EXIST));}
+
+   const userReviewListResult = await userProvider.userReviewList(userId);
+
+   return res.send(response(baseResponse.SUCCESS, userReviewListResult));
+}
