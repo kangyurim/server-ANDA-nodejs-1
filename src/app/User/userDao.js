@@ -195,7 +195,7 @@ async function userRivewList(connection, userId) {
   `
   const lasecReviewRow = await connection.query(userLasecReview, userId);
   fianlUserReviewList.userLasecReview = lasecReviewRow[0];
-
+ 
   const userLensInsertReview = `
       SELECT O.id AS hospitalName, cityName, townName, address, reviewText, U.nickname, friendlyScore, waitScore, priceScore, infoScore, recommendScore
       FROM Ophthalmology AS O
@@ -215,7 +215,7 @@ async function userRivewList(connection, userId) {
       WHERE Reivew.status = 'Activated' AND U.id = ?
       ORDER BY Reivew.createdAt DESC
   `
-  const smileLasicReviewRow = await connection.query(userSmileLasicReview, opththalmologyId);
+  const smileLasicReviewRow = await connection.query(userSmileLasicReview, userId);
   fianlUserReviewList.userSmileLasicReview = smileLasicReviewRow[0];
 
   const userCataractReview = `
@@ -226,7 +226,7 @@ async function userRivewList(connection, userId) {
       WHERE Reivew.status = 'Activated' AND U.id = ?
       ORDER BY Reivew.createdAt DESC
   `
-  const cataractReviewRow = await connection.query(userCataractReview, opththalmologyId);
+  const cataractReviewRow = await connection.query(userCataractReview, userId);
   fianlUserReviewList.userCataractReview = cataractReviewRow[0];
 
   const userDiagnosisReview = `
@@ -237,7 +237,7 @@ async function userRivewList(connection, userId) {
       WHERE Reivew.status = 'Activated' AND U.id = ?
       ORDER BY Reivew.createdAt DESC
   `
-  const diagnosisReviewRow = await connection.query(userDiagnosisReview, opththalmologyId);
+  const diagnosisReviewRow = await connection.query(userDiagnosisReview, userId);
   fianlUserReviewList.userDiagnosisReview = diagnosisReviewRow[0];
 
 

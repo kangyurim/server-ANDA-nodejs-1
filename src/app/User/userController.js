@@ -239,7 +239,7 @@ exports.getUserReviews = async function(req, res){
 
     const {userId} = req.body;
     
-   if(!userId) {return res.send(response(baseResponse.USER_ID_NOT_EXIST));}
+   if(!userId) return res.send(response(baseResponse.USER_ID_NOT_EXIST));
 
    const userReviewListResult = await userProvider.userReviewList(userId);
 
