@@ -38,4 +38,8 @@ module.exports = function(app){
     app.post('/app/users/find/id', user.findId);
     // 2. 비밀번호 수정하기
     app.patch('/app/users/find/password', user.updatePassword);
+
+    //---------------
+    // 1. 유저 아이디로 리뷰목록 확인하기
+    app.post('/app/users/mypage/review', user.getUserReviews);
 };

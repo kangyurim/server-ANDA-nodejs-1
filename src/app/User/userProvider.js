@@ -85,3 +85,21 @@ exports.jwtCheck = async function (token){
     
     return response(baseResponse.SUCCESS, checkTokenResult);
 }
+
+//유저 리뷰 조회
+exports.userReviewList = async function(userId) {
+  const connection = await pool.getConnection(async (conn) => conn);
+  let response;
+  try{
+      await connection.beginTransaction();
+      const userReviewListResult = await userDao.userRivewList(connection, userId);
+      await connection.commit();
+      response = userReviewListResult;
+  } catch(err){
+      await connection.rollback();
+      response = errResponse(baseResponse.DB_ERROR);
+  } finally{
+      connection.release();
+      return response;
+  }
+}
