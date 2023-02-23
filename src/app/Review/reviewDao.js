@@ -1,3 +1,5 @@
+const { query } = require("express");
+
 // 리뷰 조회
 async function retrieveReviewListSimple(connection, opththalmologyId) {
     let fianlSimpleReviewList = new Object();
@@ -453,7 +455,29 @@ async function getDetailReview(connection, reviewType, reviewId){
         WHERE OriReview.id = ? AND OriReview.status = 'Activated';
         `
     const textReviewRow =  await connection.query(textReviewQuery, reviewId);
-    result.textReview = textReviewRow[0];
+    result= textReviewRow[0];
+    return result;
+}
+
+async function getDetailImageReview(connection, reviewType, reviewId){
+    let queryReviewType;
+
+    if(reviewType == 'lasic') queryReviewType = 'Lasic';
+    if(reviewType == 'lasec') queryReviewType = 'Lasec';
+    if(reviewType == 'lens-insert') queryReviewType = 'LensInsert';
+    if(reviewType == 'smile-lasic') queryReviewType = 'SmileLasic';
+    if(reviewType == 'cataract') queryReviewType = 'Cataract';
+    if(reviewType == 'normal') queryReviewType = 'diagnosis';
+
+    let imgReviewQuery = `
+    SELECT OriReview.id AS reviewId, picURL
+    FROM ${queryReviewType}Review OriReview
+    INNER JOIN ${queryReviewType}ReviewMedia AS Media ON OriReview.id = Media.reviewId
+    WHERE reviewId = ? AND OriReview.status = 'Activated';
+    `
+
+    const textReviewRow =  await connection.query(imgReviewQuery, reviewId);
+    result= textReviewRow[0];
     return result;
 }
 
@@ -483,5 +507,6 @@ module.exports = {
     retrieveTop9,
     createReview,
     getDetailReview,
+    getDetailImageReview
 }
 

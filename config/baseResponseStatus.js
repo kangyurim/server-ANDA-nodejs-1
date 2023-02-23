@@ -49,7 +49,7 @@ module.exports = {
     REVIEW_EXPENSECONTENT_EMPTY: {"isSuccess": false, "code": 4013, "message": "비용리뷰 내용을 입력해주세요."},
     REVIEW_EXPENSEAMOUNT_EMPTY: {"isSuccess": false, "code": 4014, "message": "비용리뷰 금액을 입력해주세요."},
     REVIEW_HOSPITALID_EMPTY: {"isSuccess": false, "code": 4015, "message": "병원id를 입력해주세요."},
-    REVIEW_REVIEWID_EMPTY: {"isSuccess": false, "code": 4016, "message": "리뷰id를 입력해주세요."},
+    REVIEW_REVIEWID_EMPTY: {"isSuccess": false, "code": 4016, "message": "리뷰id를 입력해주세요.(reviewId : nnnn)"},
     
     //DB ERROR
     DB_ERROR : {"isSuccess": false, "code": 5001, "message":"DB관련 에러"},
