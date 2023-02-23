@@ -3,15 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Do+Hyeon&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400&family=Roboto:wght@300;400;500&family=Russo+One&family=Sniglet&display=swap" rel="stylesheet">    
 </head>
 <body>
-    <div class="content" style="width: 60%; margin-left:20%; margin-right:20%;">
-        <h1>이메일을 인증해주세요.</h1>
-        <p style="font-size:1.3em; margin-top: 10px;">다음 인증코드를 안다 앱에 입력해주세요.</p>
-        <div class="box" style="width: 40%; height: 10vh; background-color: rgba(0, 0, 0, 0.3); margin-top:20px; border-radius: 10px; 
-                                text-align: center; line-height: 10vh; color: white;  font-size: 2em; font-weight: 600;">
-            1243532
+    <div class="content">
+        <div class="headerArea">
+            <div class="logoArea"> 
+                <img src="./logo.png"> 
+            </div>
+            <div id="mainTitle">
+                안다
+            </div>
         </div>
+
+        <div class="greetingArea">
+            <p id="firstGreeting">안녕하세요,</p>
+            <p id="contentGreeting">안다에 가입해주셔서 감사합니다.<br>시작하기 전에, 본인확인을 위해 다음 인증코드를 안다 앱에 입력해주세요:)</p>
+            <div class="btnArea">
+                <div id="authenticateBtn">
+                    42333
+                </div>
+            </div>
+            <hr id="line">
+            <p id="moreInfo">
+                <b>도움</b>이 필요하신가요? <b>anda.withu.O.O@gmail.com</b> 로 연락하세요.<br>
+                <b>피드백</b>을 주고 싶으신가요? <b>anda.withu.O.O@gmail.com</b> 로 당신의 생각을 들려주세요.
+            </p>
+        </div>
+
+        
     </div>
 </body>
+
+<style>
+body{
+    width: 100%;
+    background-color: #dadada;
+}
+.content{
+   width: 95%;
+   margin-left: 2.5%;
+   margin-right: 2.5%;
+   margin-top: 8vh;
+}
+.headerArea{
+    width: 100%; 
+    height:150px;
+}
+.logoArea{
+    display:flex; 
+    justify-content: center; 
+    align-items: center;
+}
+#mainTitle{
+    display:flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 20px; 
+    font-family: 'Jua', sans-serif; 
+    font-size: 2em
+}
+.greetingArea{
+    height:auto;
+    width: auto; 
+    
+    margin-top: 10px; 
+
+    padding: 30px 20px;
+
+    background-color:white; 
+    border-radius: 10px; 
+    
+}
+#firstGreeting{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bolder;
+    padding-left: 5%;
+    font-size: 1.3em;
+    width: 90%;
+}
+#contentGreeting{
+    font-weight: lighter;
+    line-height: 1.5em;
+    padding-left: 5%;
+    
+}
+.btnArea{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 60px;
+    margin-top: 8%;
+    margin-bottom: 8%;
+}
+#authenticateBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #1CBBD9;
+    border-radius: 15px;
+    
+    width: 200px;
+    height: 100%;
+
+    font-size: 2em;
+    font-weight: bold;
+    color:white;
+    letter-spacing: 1px;
+}
+
+#line{
+    width: 100%;
+    color: #999999;
+    size: 1px;
+}
+#moreInfo{
+    margin-top: 8%;
+    padding-left: 5%;
+
+    font-weight: lighter;
+    line-height: 1.5em;
+}
+</style>
 </html>

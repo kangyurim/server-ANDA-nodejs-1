@@ -105,3 +105,15 @@ exports.postReview = async function(req, res){
 
     return res.send(response(baseResponse.SUCCESS, getReviewArea));
  }
+
+ exports.getDetatilReview = async function(req, res){
+    const reqBody = req.body;
+
+    if(!reqBody.reviewId) return res.send(response(baseResponse.REVIEW_REVIEWID_EMPTY));
+    if(!reqBody.reviewType) return res.send(response(baseResponse.REVIEW_TYPE_EMPTY));
+
+    const datailReviewRes = await reviewProvider.getDetailReview(reqBody.reviewType, reqBody.reviewId);
+
+    return res.send(response(baseResponse.SUCCESS, datailReviewRes));
+
+ }
