@@ -229,7 +229,7 @@ exports.signinUser = async function (email, password)
 
 exports.verifyEmail = async function(userEmail, code){
         const mailOptions = {
-            from: process.env.GMAIL_ID,
+            from: `안다 <${process.env.GMAIL_ID}>`,
             to: userEmail,
             subject: "[안다] 이메일을 인증해주세요.",
             html: `

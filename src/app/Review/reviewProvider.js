@@ -61,20 +61,22 @@ exports.getReviewArea = async function(location){
         await connection.rollback();
         response = errResponse(baseResponse.TRANSACTION_ERROR);
     }  finally{
-        connection.commit();
         connection.release();
         return response;
     }
 }
 
-
+// 리뷰 상세 조회
 exports.getDetailReview = async function(reviewType, reviewId){
     const connection = await pool.getConnection(async (conn) => conn);
-    let response;
+    let response = new Object();
     try{
-        response = await reviewDao.getDetailReview(connection, reviewType, reviewId);
+        connection.beginTransaction();
+        response.textReview = await reviewDao.getDetailReview(connection, reviewType, reviewId);
+        response.imageReview = await reviewDao.getDetailImageReview(connection, reviewType, reviewId);
     } catch(err){
-        response = errResponse(baseResponse.DB_ERROR);
+        await connection.rollback();
+        response.msg = errResponse(baseResponse.DB_ERROR);
     }finally{
         connection.release();
         return response;
